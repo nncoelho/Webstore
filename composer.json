@@ -1,0 +1,15 @@
+{
+    "name": "coelho/webstore",
+    "description": "Loja Online em PHP",
+    "type": "project",
+    "authors": [{
+        "name": "NNCoelho",
+        "email": "coelho301181@gmail.com"
+    }],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "core\\": "core/"
+        }
+    }
+}
