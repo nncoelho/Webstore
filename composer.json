@@ -6,10 +6,15 @@
         "name": "NNCoelho",
         "email": "coelho301181@gmail.com"
     }],
-    "require": {},
+    "require": {
+        "phpmailer/phpmailer": "^6.2"
+    },
     "autoload": {
         "psr-4": {
             "core\\": "core/"
-        }
+        },
+        "files": [
+            "config.php"
+        ]
     }
 }
