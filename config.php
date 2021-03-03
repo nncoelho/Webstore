@@ -15,5 +15,5 @@ define('MYSQL_CHARSET',     'utf8');
 // EMAIL
 define('EMAIL_HOST', 'smtp.gmail.com');
 define('EMAIL_FROM', 'fenixdevsoft@gmail.com');
-define('EMAIL_PASS', 'Fenix81!');
+define('EMAIL_PASS', '');
 define('EMAIL_PORT', 587);
