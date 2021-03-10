@@ -29,7 +29,7 @@ class Main{
         // Lista de produtos disponiveis em stock da BD
         $produtos = new Products();
 
-        // Analisa a categoria/seccao a mostrar
+        // Analisa a categoria/secção a mostrar
         $categoria = 'geral';
         if(isset($_GET['c'])){
             $categoria = $_GET['c'];
@@ -214,7 +214,7 @@ class Main{
             return;
         }
 
-        // Prepara os dados para o model Clients
+        // Prepara os dados para o model clients
         $utilizador = trim(strtolower($_POST['text_utilizador']));
         $senha = trim($_POST['text_senha']);
 
@@ -234,8 +234,16 @@ class Main{
             $_SESSION['utilizador'] = $resultado->email;
             $_SESSION['nome_cliente'] = $resultado->nome_completo;
 
-            // Redirecciona para a home page da webstore
-            Store::redirect();
+            // Redirecciona correspondentemente ao estado do cliente
+            if(isset($_SESSION['tmp_cart'])){
+                // Remove a varivável temporária da sessão
+                unset($_SESSION['tmp_cart']);
+                // Redireciona para o resumo da encomenda
+                Store::redirect('finalizeOrderResume');
+            } else {
+                // Redireciona para a loja
+                Store::redirect();
+            }
         }
     }
 

@@ -4,22 +4,48 @@
     box-shadow: inset 0px 0px 1px rgba(255, 0, 0, 0.5);
 } */
 
-a{
+a {
     text-decoration: none;
 }
 
-a:hover{
+a:hover {
     color: gold;
 }
 
-h2, h3, h4{
+h2,
+h3,
+h4 {
     font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.btn-120 {
+    width: 120px;
+}
+
+.btn-150 {
+    width: 150px;
 }
 
 .navegacao {
     background-color: rgb(153, 171, 195);
     color: black;
-    
+
+}
+
+.nav-item {
+    text-decoration: none;
+    color: white;
+    margin: 0px 6px;
+}
+
+.nav-item:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+.box-product {
+    border: 1px solid rgba(150, 150, 150, 0.6);
+    border-radius: 12px;
 }
 
 .rodape {
@@ -27,26 +53,6 @@ h2, h3, h4{
     color: white;
 }
 
-.nav-item{
-    text-decoration: none;
-    color: white;
-    margin: 0px 6px;
-}
-
-.nav-item:hover{
-    text-decoration: underline;
-    color: white;
-}
-
-.box-product{
-    border: 1px solid rgba(150, 150, 150, 0.6);
-    border-radius: 12px;
-}
-
-.btn-150{
-    width: 150px;
-}
-
-.rodape-overlay{
+.rodape-overlay {
     margin-bottom: 90px;
 }

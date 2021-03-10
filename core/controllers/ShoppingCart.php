@@ -29,7 +29,7 @@ class ShoppingCart{
             return;
         }
 
-        // Adiciona / Gestão da variável de sessão do carrinho
+        // Adiciona/Gestão da variável de sessão do carrinho
         $shoppingcart = [];
         if (isset($_SESSION['shoppingcart'])) {
             $shoppingcart = $_SESSION['shoppingcart'];
@@ -54,6 +54,25 @@ class ShoppingCart{
             $total_produtos += $produto_qtd;
         }
         echo $total_produtos;
+    }
+
+    // ============================================================
+    public function delete_item_shopcart(){
+
+        // Vai buscar o id produto na query string
+        $id_produto = $_GET['id_produto'];
+
+        // Vai buscar o carrinho à sessão
+        $shoppingcart = $_SESSION['shoppingcart'];
+
+        // Remove o produto do carrinho
+        unset($shoppingcart[$id_produto]);
+
+        // Atualiza o carrinho na sessão
+        $_SESSION['shoppingcart'] = $shoppingcart;
+
+        // Refresca a página do carrinho
+        $this->shopping_cart();
     }
 
     // ============================================================
@@ -89,7 +108,8 @@ class ShoppingCart{
 
                 // Ciclo de produtos
                 foreach ($resultados as $produto) {
-                    if($produto->id_produto == $id_produto){
+                    if ($produto->id_produto == $id_produto) {
+                        $id_produto = $produto->id_produto;
                         $imagem = $produto->imagem;
                         $titulo = $produto->nome_produto;
                         $qtd = $quantidade;
@@ -97,6 +117,7 @@ class ShoppingCart{
 
                         // Coloca os atributos do produto no array da encomenda
                         array_push($dados_encomenda, [
+                            'id_produto' => $id_produto,
                             'imagem' => $imagem,
                             'titulo' => $titulo,
                             'qtd'    => $qtd,
@@ -107,9 +128,9 @@ class ShoppingCart{
                 }
             }
 
-            // Calcula o sub-total da encomenda e coloca-o na coleção da mesma
+            // Calcula o total da encomenda e coloca-o na coleção da mesma
             $valor_total_encomenda = 0;
-            foreach($dados_encomenda as $item){
+            foreach ($dados_encomenda as $item) {
                 $valor_total_encomenda += $item['preco'];
             }
             array_push($dados_encomenda, $valor_total_encomenda);
@@ -124,6 +145,89 @@ class ShoppingCart{
             'layouts/html_header',
             'layouts/header',
             'shopping_cart',
+            'layouts/footer',
+            'layouts/html_footer'
+        ], $dados);
+    }
+
+    // ============================================================
+    public function finalizeOrder(){
+
+        // Verifica se o cliente está logado
+        if (!isset($_SESSION['cliente'])) {
+            // Coloca na sessão um referrer temporário
+            $_SESSION['tmp_cart'] = true;
+            // Redireciona para o quadro de login
+            Store::redirect('login');
+        } else {
+            Store::redirect('finalizeOrderResume');
+        }
+    }
+
+    // ============================================================
+    public function finalizeOrderResume(){
+
+        // Verifica se existe cliente logado
+        if (!isset($_SESSION['cliente'])) {
+            Store::redirect('home');
+        }
+
+        // Informações do carrinho
+        $ids = [];
+        foreach ($_SESSION['shoppingcart'] as $id_produto => $quantidade) {
+            array_push($ids, $id_produto);
+        }
+
+        $ids = implode(",", $ids);
+        $produtos = new Products();
+        $resultados = $produtos->get_products_by_ids($ids);
+
+        $dados_encomenda = [];
+        foreach ($_SESSION['shoppingcart'] as $id_produto => $quantidade) {
+
+            // Ciclo de produtos
+            foreach ($resultados as $produto) {
+                if ($produto->id_produto == $id_produto) {
+                    $id_produto = $produto->id_produto;
+                    $imagem = $produto->imagem;
+                    $titulo = $produto->nome_produto;
+                    $qtd = $quantidade;
+                    $preco = $produto->preco * $qtd;
+
+                    // Coloca os atributos do produto no array da encomenda
+                    array_push($dados_encomenda, [
+                        'id_produto' => $id_produto,
+                        'imagem' => $imagem,
+                        'titulo' => $titulo,
+                        'qtd'    => $qtd,
+                        'preco'  => $preco
+                    ]);
+                    break;
+                }
+            }
+        }
+
+        // Calcula o total da encomenda e coloca-o na coleção da mesma
+        $valor_total_encomenda = 0;
+        foreach ($dados_encomenda as $item) {
+            $valor_total_encomenda += $item['preco'];
+        }
+        array_push($dados_encomenda, $valor_total_encomenda);
+
+        // Prepara os dados da encomenda para a view
+        $dados = [];
+        $dados['shoppingcart'] = $dados_encomenda;
+
+        // Vai buscar as informações do cliente
+        $cliente = new Clients();
+        $dados_cliente = $cliente->getClientData($_SESSION['cliente']);
+        $dados['cliente'] = $dados_cliente;
+
+        // Apresenta a pagina de resumo da encomenda
+        Store::Layout([
+            'layouts/html_header',
+            'layouts/header',
+            'order_resume',
             'layouts/footer',
             'layouts/html_footer'
         ], $dados);

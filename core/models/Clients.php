@@ -18,7 +18,7 @@ class Clients{
         $resultados = $bd->select('SELECT email FROM clientes WHERE email = :email', $parametros);
 
         // Caso exista alguma conta com o mesmo email
-        if(count($resultados) != 0){
+        if (count($resultados) != 0) {
             return true;
         } else {
             return false;
@@ -60,7 +60,7 @@ class Clients{
                 NOW(),
                 NULL
             )
-        ",$parametros);
+        ", $parametros);
 
         // Retorna o purl criado
         return $purl;
@@ -77,18 +77,21 @@ class Clients{
         $resultados = $bd->select("SELECT * FROM clientes WHERE purl = :purl", $parametros);
 
         // Verifica se foi encontrado o cliente
-        if(count($resultados) != 1){
+        if (count($resultados) != 1) {
             return false;
         }
 
         // Foi encontrado o cliente com o PURL indicado
         $id_cliente = $resultados[0]->id_cliente;
-    
-        // Atualizar os dados do cliente
+
+        // Atualiza os dados do cliente
         $parametros = [
             ':id_cliente' => $id_cliente,
         ];
-        $bd->update("UPDATE clientes SET purl = NULL, activo = 1, updated_at = NOW() WHERE id_cliente = :id_cliente", $parametros);
+        $bd->update("UPDATE clientes SET purl = NULL, 
+            activo = 1, 
+            updated_at = NOW() 
+            WHERE id_cliente = :id_cliente", $parametros);
         return true;
     }
 
@@ -102,15 +105,17 @@ class Clients{
 
         // Verifica se existe um cliente registado com o endereço de email indicado
         $bd = new Database();
-        $resultados = $bd->select("SELECT * FROM clientes WHERE email = :utilizador AND activo = 1 AND deleted_at IS NULL", $parametros);
+        $resultados = $bd->select("SELECT * FROM clientes 
+            WHERE email = :utilizador 
+            AND activo = 1 AND deleted_at IS NULL", $parametros);
 
-        if(count($resultados) != 1){
+        if (count($resultados) != 1) {
             return false;
         } else {
 
             // Se existir utilizador verifica se a password coincide com a da BD
             $utilizador = $resultados[0];
-            if(!password_verify($senha, $utilizador->senha)){
+            if (!password_verify($senha, $utilizador->senha)) {
 
                 // Login inválido password não coincide
                 return false;
@@ -119,5 +124,19 @@ class Clients{
                 return $utilizador;
             }
         }
+    }
+
+    // ============================================================
+    public function getClientData($id_cliente){
+
+        $parametros = [
+            'id_cliente' => $id_cliente
+        ];
+
+        $bd = new Database();
+        $resultados = $bd->select("SELECT 
+            email, nome_completo, morada, cidade, telefone 
+            FROM clientes WHERE id_cliente = :id_cliente", $parametros);
+        return $resultados[0];
     }
 }
