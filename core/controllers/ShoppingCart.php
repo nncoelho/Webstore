@@ -223,6 +223,12 @@ class ShoppingCart{
         $dados_cliente = $cliente->getClientData($_SESSION['cliente']);
         $dados['cliente'] = $dados_cliente;
 
+        // Gera o código único da encomenda
+        if(!isset($_SESSION['order_code'])){
+            $codigo_encomenda = Store::generateOrderCode();
+            $_SESSION['order_code'] = $codigo_encomenda;
+        }
+
         // Apresenta a pagina de resumo da encomenda
         Store::Layout([
             'layouts/html_header',
@@ -231,5 +237,27 @@ class ShoppingCart{
             'layouts/footer',
             'layouts/html_footer'
         ], $dados);
+    }
+
+    // ============================================================
+    public function alternativeAddress(){
+
+        // Receber os dados via AJAX(axios)
+        $post = json_decode(file_get_contents('php://input'), true);
+
+        // Adiciona na sessão a variável/array dados_alternativos
+        $_SESSION['dados_alternativos'] = [
+            'morada' => $post['text_morada'],
+            'cidade' => $post['text_cidade'],
+            'email' => $post['text_email'],
+            'telefone' => $post['text_telefone']
+        ];
+    }
+
+    // ============================================================
+    public function choosePaymentMethod(){
+
+        echo 'Escolher método de pagamento';
+        Store::printData($_SESSION);
     }
 }

@@ -28,7 +28,7 @@
                         <?php foreach ($shoppingcart as $produto) : ?>
                             <?php if ($index < $total_rows - 1) : ?>
                                 <tr>
-                                    <td class="align-middle"><img src="assets/images/produtos/<?= $produto['imagem']; ?>" class="img-fluid" width="45px"></td>
+                                    <td class="align-middle"><img src="assets/images/produtos/<?= $produto['imagem']; ?>" alt="img" class="img-fluid" width="45px"></td>
                                     <td class="align-middle text-start"><?= $produto['titulo'] ?></td>
                                     <td class="align-middle"><?= $produto['qtd'] ?></td>
                                     <td class="align-middle text-end"><?= '€' . number_format($produto['preco'], 2, ',', '.'); ?></td>

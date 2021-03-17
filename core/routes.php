@@ -4,14 +4,17 @@
 $routes = [
     'home'          => 'main@index',
     'webstore'      => 'main@webstore',
+
     // Clientes
     'signup'        => 'main@signup',
     'signup_submit' => 'main@signup_submit',
     'confirm_email' => 'main@confirm_email',
+
     // Login & Logout
     'login'         => 'main@login',
     'login_submit'  => 'main@login_submit',
     'logout'        => 'main@logout',
+
     // Shopping cart
     'shoppingcart'          => 'shoppingcart@shopping_cart',
     'addToShoppingCart'     => 'shoppingcart@addToShoppingCart',
@@ -19,6 +22,8 @@ $routes = [
     'delete_item_shopcart'  => 'shoppingcart@delete_item_shopcart',
     'finalizeOrder'         => 'shoppingcart@finalizeOrder',
     'finalizeOrderResume'   => 'shoppingcart@finalizeOrderResume',
+    'alternativeAddress'    => 'shoppingcart@alternativeAddress',
+    'choosePaymentMethod'   => 'shoppingcart@choosePaymentMethod'
 ];
 
 // Define a ação por defeito

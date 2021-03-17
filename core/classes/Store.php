@@ -4,7 +4,8 @@ namespace core\classes;
 
 use Exception;
 
-class Store{
+class Store
+{
 
     // ============================================================
     public static function Layout($estruturas, $dados = null){
@@ -47,14 +48,25 @@ class Store{
     }
 
     // ============================================================
+    public static function generateOrderCode(){
+
+        // Gera um código único para cada encomenda
+        $codigo = "";
+        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $codigo .= substr(str_shuffle($chars), 0, 2);
+        $codigo .= rand(100000, 999999);
+        return $codigo;
+    }
+
+    // ============================================================
     public static function printData($data){
-        if(is_array($data) || is_object($data)){
+        if (is_array($data) || is_object($data)) {
             echo '<pre>';
             print_r($data);
         } else {
             echo '<pre>';
             echo $data;
         }
-        die('<br>CONCLUIDO');
+        die('<br>Concluido');
     }
 }
