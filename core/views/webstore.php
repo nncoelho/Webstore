@@ -27,7 +27,7 @@
                     <div class="text-center p-3 box-product">
                         <img class="img-fluid" alt="img" src="assets/images/produtos/<?= $produto->imagem ?>">
                         <h6><i><?= $produto->nome_produto ?></i></h6>
-                        <h5><b><?= preg_replace("/\./", ",", '€'.$produto->preco) ?></b></h5>
+                        <h5><b><?= preg_replace("/\./", ",", '€' . $produto->preco) ?></b></h5>
                         <div class="text-center my-2">
                             <!-- Gestão do stock dos produtos na BD -->
                             <?php if ($produto->stock > 0) : ?>

@@ -25,14 +25,18 @@
                                 <td class="align-middle"><img src="assets/images/produtos/<?= $produto['imagem']; ?>" alt="img" class="img-fluid" width="30px"></td>
                                 <td class="align-middle text-start"><?= $produto['titulo'] ?></td>
                                 <td class="align-middle"><?= $produto['qtd'] ?></td>
-                                <td class="align-middle text-end"><p><?= '€' . number_format($produto['preco'], 2, ',', '.'); ?></p></td>
+                                <td class="align-middle text-end">
+                                    <p><?= '€' . number_format($produto['preco'], 2, ',', '.'); ?></p>
+                                </td>
                             </tr>
                         <?php else : ?>
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td class="align-middle text-end">Valor total:</td>
-                                <td class="align-middle text-end"><h5><?= '€' . number_format($produto, 2, ',', '.'); ?></h5></td>
+                                <td class="align-middle text-end">
+                                    <h5><?= '€' . number_format($produto, 2, ',', '.'); ?></h5>
+                                </td>
                             </tr>
                         <?php endif; ?>
                         <?php $index++; ?>
@@ -59,9 +63,15 @@
                 <h4 class="bg-dark text-white p-2">Dados de pagamento</h4>
                 <div class="row">
                     <div class="col">
-                        <small><p><b>Conta bancária:</b> 1234567890</p></small>
-                        <small><p><b>Código da encomenda:</b> <?= $_SESSION['order_code'] ?></p></small>
-                        <small><p><b>Total da encomenda:</b> <?= '€' . number_format($produto, 2, ',', '.'); ?></p></small>
+                        <small>
+                            <p><b>Conta bancária:</b> 1234567890</p>
+                        </small>
+                        <small>
+                            <p><b>Código da encomenda:</b> <?= $_SESSION['order_code'] ?></p>
+                        </small>
+                        <small>
+                            <p><b>Total da encomenda:</b> <?= '€' . number_format($produto, 2, ',', '.'); ?></p>
+                        </small>
                     </div>
                 </div>
 
@@ -96,7 +106,7 @@
                     <a href="?a=shoppingcart" class="btn btn-secondary btn-sm">Cancelar</a>
                 </div>
                 <div class="col text-end">
-                    <a href="?a=choosePaymentMethod" onclick="alternativeAddress()" class="btn btn-primary btn-sm">Finalizar encomenda</a>
+                    <a href="?a=confirmOrder" onclick="alternativeAddress()" class="btn btn-primary btn-sm">Confirmar encomenda</a>
                 </div>
             </div>
         </div>

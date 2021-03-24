@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'fe7a0edfe4d5aa5b2b59fe2c8afc3e6245718179',
+    'reference' => '101cf84eb3eef4627dc1552aa9405c24efb5b4c1',
     'name' => 'coelho/webstore',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'fe7a0edfe4d5aa5b2b59fe2c8afc3e6245718179',
+      'reference' => '101cf84eb3eef4627dc1552aa9405c24efb5b4c1',
     ),
     'phpmailer/phpmailer' => 
     array (

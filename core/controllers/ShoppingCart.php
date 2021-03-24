@@ -6,6 +6,7 @@ use core\classes\Database;
 use core\classes\SendEmail;
 use core\classes\Store;
 use core\models\Clients;
+use core\models\Orders;
 use core\models\Products;
 
 class ShoppingCart{
@@ -135,6 +136,9 @@ class ShoppingCart{
             }
             array_push($dados_encomenda, $valor_total_encomenda);
 
+            // Coloca o preço total na sessão para finalizar encomenda
+            $_SESSION['total_encomenda'] = $valor_total_encomenda;
+
             $dados = [
                 'shoppingcart' => $dados_encomenda
             ];
@@ -177,7 +181,6 @@ class ShoppingCart{
         foreach ($_SESSION['shoppingcart'] as $id_produto => $quantidade) {
             array_push($ids, $id_produto);
         }
-
         $ids = implode(",", $ids);
         $produtos = new Products();
         $resultados = $produtos->get_products_by_ids($ids);
@@ -224,9 +227,9 @@ class ShoppingCart{
         $dados['cliente'] = $dados_cliente;
 
         // Gera o código único da encomenda
-        if(!isset($_SESSION['order_code'])){
-            $codigo_encomenda = Store::generateOrderCode();
-            $_SESSION['order_code'] = $codigo_encomenda;
+        if (!isset($_SESSION['order_code'])) {
+            $order_code = Store::generateOrderCode();
+            $_SESSION['order_code'] = $order_code;
         }
 
         // Apresenta a pagina de resumo da encomenda
@@ -255,9 +258,102 @@ class ShoppingCart{
     }
 
     // ============================================================
-    public function choosePaymentMethod(){
+    public function confirmOrder(){
 
-        echo 'Escolher método de pagamento';
-        Store::printData($_SESSION);
+        // Enviar email ao cliente tratar os dados e guardar encomenda na BD
+        $dados_encomenda = [];
+
+        // Vai buscar os dados dos produtos
+        $ids = [];
+        foreach ($_SESSION['shoppingcart'] as $id_produto => $quantidade) {
+            array_push($ids, $id_produto);
+        }
+        $ids = implode(",", $ids);
+        $produtos = new Products();
+        $produtos_encomenda = $produtos->get_products_by_ids($ids);
+
+        // Estrutura dos dados dos produtos
+        $string_produtos = [];
+        foreach ($produtos_encomenda as $resultado) {
+            // Quantidade
+            $quantidade = $_SESSION['shoppingcart'][$resultado->id_produto];
+            // String do produto
+            $string_produtos[] = "$quantidade x $resultado->nome_produto - €" . number_format($resultado->preco, 2, ',', '.') . "/Unid.";
+        }
+
+        // Lista de produtos para o email
+        $dados_encomenda['lista_produtos'] = $string_produtos;
+
+        // Preço total da encomenda para o email
+        $dados_encomenda['total'] = '€' . number_format($_SESSION['total_encomenda'], 2, ',', '.');
+
+        // Dados de pagamento para o email
+        $dados_encomenda['dados_pagamento'] = [
+            'numero_da_conta'   => '1234567890',
+            'order_code'        => $_SESSION['order_code'],
+            'total'             => '€' . number_format($_SESSION['total_encomenda'], 2, ',', '.')
+        ];
+
+        // Envia o email ao cliente com os dados da encomenda
+        $email = new SendEmail();
+        $resultado = $email->sendEmailCheckingOrder($_SESSION['utilizador'], $dados_encomenda);
+
+        // Prepara os dados do cliente respectivo a encomenda
+        $dados_encomenda = [];
+        $dados_encomenda['id_cliente'] = $_SESSION['cliente'];
+        // Morada
+        if (isset($_SESSION['dados_alternativos']['morada']) && !empty($_SESSION['dados_alternativos']['morada'])) {
+            // Considera a morada alternativa
+            $dados_encomenda['morada'] = $_SESSION['dados_alternativos']['morada'];
+            $dados_encomenda['cidade'] = $_SESSION['dados_alternativos']['cidade'];
+            $dados_encomenda['email'] = $_SESSION['dados_alternativos']['email'];
+            $dados_encomenda['telefone'] = $_SESSION['dados_alternativos']['telefone'];
+        } else {
+            // Considera a morada guardada na BD
+            $cliente = new Clients();
+            $dados_cliente = $cliente->getClientData($_SESSION['cliente']);
+            $dados_encomenda['morada'] = $dados_cliente->morada;
+            $dados_encomenda['cidade'] = $dados_cliente->cidade;
+            $dados_encomenda['email'] = $dados_cliente->email;
+            $dados_encomenda['telefone'] = $dados_cliente->telefone;
+        }
+
+        // Código da encomenda
+        $dados_encomenda['order_code'] = $_SESSION['order_code'];
+
+        // Status
+        $dados_encomenda['status'] = 'PENDENTE';
+        $dados_encomenda['mensagem'] = '';
+
+        // Prepara os dados dos produtos da encomenda
+        $dados_produtos = [];
+        foreach ($produtos_encomenda as $produto) {
+            $dados_produtos[] = [
+                'designacao_produto' => $produto->nome_produto,
+                'preco_unidade'      => $produto->preco,
+                'quantidade'         => $_SESSION['shoppingcart'][$produto->id_produto]
+            ];
+        }
+
+        // Guarda a encomenda na BD
+        $order = new Orders();
+        $order->saveOrderBD($dados_encomenda, $dados_produtos);
+
+        // Dados da encomenda a apresentar na view
+        $order_code = $_SESSION['order_code'];
+        $total_encomenda = $_SESSION['total_encomenda'];
+        $dados = [
+            'order_code' => $order_code,
+            'total_encomenda' => $total_encomenda
+        ];
+
+        // Apresenta a pagina de confirmação da encomenda
+        Store::Layout([
+            'layouts/html_header',
+            'layouts/header',
+            'confirm_order',
+            'layouts/footer',
+            'layouts/html_footer'
+        ], $dados);
     }
 }

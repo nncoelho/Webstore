@@ -23,7 +23,7 @@ $routes = [
     'finalizeOrder'         => 'shoppingcart@finalizeOrder',
     'finalizeOrderResume'   => 'shoppingcart@finalizeOrderResume',
     'alternativeAddress'    => 'shoppingcart@alternativeAddress',
-    'choosePaymentMethod'   => 'shoppingcart@choosePaymentMethod'
+    'confirmOrder'          => 'shoppingcart@confirmOrder'
 ];
 
 // Define a ação por defeito

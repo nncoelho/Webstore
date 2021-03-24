@@ -4,8 +4,7 @@ namespace core\classes;
 
 use Exception;
 
-class Store
-{
+class Store{
 
     // ============================================================
     public static function Layout($estruturas, $dados = null){

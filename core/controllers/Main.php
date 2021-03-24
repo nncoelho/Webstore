@@ -1,7 +1,7 @@
 <?php
 
 namespace core\controllers;
-    
+
 use core\classes\Database;
 use core\classes\SendEmail;
 use core\classes\Store;
@@ -31,7 +31,7 @@ class Main{
 
         // Analisa a categoria/secção a mostrar
         $categoria = 'geral';
-        if(isset($_GET['c'])){
+        if (isset($_GET['c'])) {
             $categoria = $_GET['c'];
         }
 
@@ -223,7 +223,7 @@ class Main{
         $resultado = $cliente->validate_login($utilizador, $senha);
 
         // Analisa o resultado
-        if(is_bool($resultado)){
+        if (is_bool($resultado)) {
             // Login inválido
             $_SESSION['erro'] = 'Login inválido';
             Store::redirect('login');
@@ -235,7 +235,7 @@ class Main{
             $_SESSION['nome_cliente'] = $resultado->nome_completo;
 
             // Redirecciona correspondentemente ao estado do cliente
-            if(isset($_SESSION['tmp_cart'])){
+            if (isset($_SESSION['tmp_cart'])) {
                 // Remove a varivável temporária da sessão
                 unset($_SESSION['tmp_cart']);
                 // Redireciona para o resumo da encomenda

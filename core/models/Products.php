@@ -9,7 +9,7 @@ class Products{
 
     // ============================================================
     public function lista_produtos_disponiveis($categoria){
-        
+
         // Obtem todas as informações dos produtos da BD
         $bd = new Database();
 
@@ -19,7 +19,7 @@ class Products{
         $sql = "SELECT * FROM produtos ";
         $sql .= "WHERE visivel = 1 ";
 
-        if(in_array($categoria, $categorias)){
+        if (in_array($categoria, $categorias)) {
             $sql .= "AND categoria = '$categoria'";
         }
 
@@ -29,12 +29,12 @@ class Products{
 
     // ============================================================
     public function lista_categorias(){
-        
+
         // Devolve a lista de categorias existentes na BD
         $bd = new Database();
         $resultados = $bd->select("SELECT DISTINCT categoria FROM produtos");
         $categorias = [];
-        foreach($resultados as $resultado){
+        foreach ($resultados as $resultado) {
             array_push($categorias, $resultado->categoria);
         }
         return $categorias;
