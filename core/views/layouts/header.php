@@ -23,8 +23,9 @@ if (isset($_SESSION['shoppingcart'])) {
             <a href="?a=webstore" class="nav-item">Store</a>
 
             <!-- Verifica se existe cliente na sessao -->
-            <?php if (Store::clienteLogado()) : ?>
-                <i class="fas fa-user-alt me-2"></i><?= $_SESSION['utilizador'] ?>
+            <?php if (Store::clientLogged()) : ?>
+
+                <a href="?a=profile"><i class="fas fa-user-alt me-2"></i><?= $_SESSION['utilizador'] ?></a>
                 <a href="?a=logout" class="nav-item"><i class="fas fa-sign-out-alt"></i></a>
             <?php else : ?>
                 <a href="?a=login" class="nav-item">Login</a>

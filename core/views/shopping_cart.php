@@ -33,7 +33,7 @@
                                     <td class="align-middle"><?= $produto['qtd'] ?></td>
                                     <td class="align-middle text-end"><?= '€' . number_format($produto['preco'], 2, ',', '.'); ?></td>
                                     <td class="align-middle">
-                                        <a href="?a=delete_item_shopcart&id_produto=<?= $produto['id_produto'] ?>" class="btn btn-danger btn-sm">
+                                        <a href="?a=delete_item_shoppingcart&id_produto=<?= $produto['id_produto'] ?>" class="btn btn-danger btn-sm">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </td>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="col text-end">
                         <a href="?a=webstore" class="btn btn-primary btn-sm">Continuar a comprar</a>
-                        <a href="?a=finalizeOrder" class="btn btn-success btn-sm">Finalizar a encomenda</a>
+                        <a href="?a=finalize_order" class="btn btn-success btn-sm">Finalizar a encomenda</a>
                     </div>
                 </div>
             <?php endif; ?>

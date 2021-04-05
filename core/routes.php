@@ -1,29 +1,37 @@
 <?php
 
-// Coleção de routes
+// Coleção das routes
 $routes = [
     'home'          => 'main@index',
     'webstore'      => 'main@webstore',
 
-    // Clientes
+    // Clients
     'signup'        => 'main@signup',
-    'signup_submit' => 'main@signup_submit',
-    'confirm_email' => 'main@confirm_email',
+    'signup_submit' => 'main@signupSubmit',
+    'confirm_email' => 'main@confirmEmail',
 
-    // Login & Logout
+    // Login / Logout
     'login'         => 'main@login',
-    'login_submit'  => 'main@login_submit',
+    'login_submit'  => 'main@loginSubmit',
     'logout'        => 'main@logout',
 
+    // User profile
+    'profile'                       => 'main@profile',
+    'change_personal_data'          => 'main@changePersonalData',
+    'change_personal_data_submit'   => 'main@changePersonalDataSubmit',
+    'change_password'               => 'main@changePassword',
+    'change_password_submit'        => 'main@changePasswordSubmit',
+    'order_history'                 => 'main@orderHistory',
+
     // Shopping cart
-    'shoppingcart'          => 'shoppingcart@shopping_cart',
-    'addToShoppingCart'     => 'shoppingcart@addToShoppingCart',
-    'clear_shoppingcart'    => 'shoppingcart@clear_shoppingcart',
-    'delete_item_shopcart'  => 'shoppingcart@delete_item_shopcart',
-    'finalizeOrder'         => 'shoppingcart@finalizeOrder',
-    'finalizeOrderResume'   => 'shoppingcart@finalizeOrderResume',
-    'alternativeAddress'    => 'shoppingcart@alternativeAddress',
-    'confirmOrder'          => 'shoppingcart@confirmOrder'
+    'shoppingcart'              => 'shoppingcart@shoppingCart',
+    'addToShoppingCart'         => 'shoppingcart@addToShoppingCart',
+    'clear_shoppingcart'        => 'shoppingcart@clearShoppingCart',
+    'delete_item_shoppingcart'  => 'shoppingcart@deleteItemShoppingCart',
+    'finalize_order'            => 'shoppingcart@finalizeOrder',
+    'finalize_order_resume'     => 'shoppingcart@finalizeOrderResume',
+    'alternative_address'       => 'shoppingcart@alternativeAddress',
+    'confirm_order'             => 'shoppingcart@confirmOrder'
 ];
 
 // Define a ação por defeito

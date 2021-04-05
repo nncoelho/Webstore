@@ -46,7 +46,7 @@ function alternativeAddress() {
 
     axios({
         method: 'post',
-        url: '?a=alternativeAddress',
+        url: '?a=alternative_address',
         data: {
             text_morada: document.getElementById('text_morada_alt').value,
             text_cidade: document.getElementById('text_cidade_alt').value,

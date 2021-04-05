@@ -106,7 +106,7 @@
                     <a href="?a=shoppingcart" class="btn btn-secondary btn-sm">Cancelar</a>
                 </div>
                 <div class="col text-end">
-                    <a href="?a=confirmOrder" onclick="alternativeAddress()" class="btn btn-primary btn-sm">Confirmar encomenda</a>
+                    <a href="?a=confirm_order" onclick="alternativeAddress()" class="btn btn-primary btn-sm">Confirmar encomenda</a>
                 </div>
             </div>
         </div>

@@ -32,7 +32,7 @@ class Clients{
         $bd = new Database();
 
         // Cria uma Hash para definir uma PURL para ativacao de conta
-        $purl = Store::criarHash();
+        $purl = Store::createHash();
 
         $parametros = [
             ':email' => strtolower(trim($_POST['text_email'])),

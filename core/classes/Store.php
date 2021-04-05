@@ -26,14 +26,14 @@ class Store{
     }
 
     // ============================================================
-    public static function clienteLogado(){
+    public static function clientLogged(){
 
-        // Verifica se existe um cliente com sessao
+        // Verifica se existe um cliente logado
         return isset($_SESSION['cliente']);
     }
 
     // ============================================================
-    public static function criarHash($num_caracteres = 12){
+    public static function createHash($num_caracteres = 12){
 
         $chars = '01234567890123456789abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ';
         return substr(str_shuffle($chars), 0, $num_caracteres);

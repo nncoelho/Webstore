@@ -2,7 +2,6 @@
 
 namespace core\controllers;
 
-use core\classes\Database;
 use core\classes\SendEmail;
 use core\classes\Store;
 use core\models\Clients;
@@ -58,7 +57,7 @@ class ShoppingCart{
     }
 
     // ============================================================
-    public function delete_item_shopcart(){
+    public function deleteItemShoppingCart(){
 
         // Vai buscar o id produto na query string
         $id_produto = $_GET['id_produto'];
@@ -73,21 +72,21 @@ class ShoppingCart{
         $_SESSION['shoppingcart'] = $shoppingcart;
 
         // Refresca a página do carrinho
-        $this->shopping_cart();
+        $this->shoppingCart();
     }
 
     // ============================================================
-    public function clear_shoppingcart(){
+    public function clearShoppingCart(){
 
         // Limpa todos os produtos do carrinho
         unset($_SESSION['shoppingcart']);
 
         // Refresca a página do carrinho após o mesmo ser limpo
-        $this->shopping_cart();
+        $this->shoppingCart();
     }
 
     // ============================================================
-    public function shopping_cart(){
+    public function shoppingCart(){
 
         // Verifica se existe carrinho
         if (!isset($_SESSION['shoppingcart']) || count($_SESSION['shoppingcart']) == 0) {
@@ -155,16 +154,31 @@ class ShoppingCart{
     }
 
     // ============================================================
+    public function alternativeAddress(){
+
+        // Receber os dados via AJAX(axios)
+        $post = json_decode(file_get_contents('php://input'), true);
+
+        // Adiciona na sessão a variável/array dados_alternativos
+        $_SESSION['dados_alternativos'] = [
+            'morada' => $post['text_morada'],
+            'cidade' => $post['text_cidade'],
+            'email' => $post['text_email'],
+            'telefone' => $post['text_telefone']
+        ];
+    }
+
+    // ============================================================
     public function finalizeOrder(){
 
-        // Verifica se o cliente está logado
+        // Verifica se existe cliente logado
         if (!isset($_SESSION['cliente'])) {
             // Coloca na sessão um referrer temporário
             $_SESSION['tmp_cart'] = true;
             // Redireciona para o quadro de login
             Store::redirect('login');
         } else {
-            Store::redirect('finalizeOrderResume');
+            Store::redirect('finalize_order_resume');
         }
     }
 
@@ -174,6 +188,12 @@ class ShoppingCart{
         // Verifica se existe cliente logado
         if (!isset($_SESSION['cliente'])) {
             Store::redirect('home');
+        }
+
+        // Verifica se pode avançar para o registo da encomenda na BD
+        if (!isset($_SESSION['shoppingcart']) || count($_SESSION['shoppingcart']) == 0) {
+            Store::redirect('home');
+            return;
         }
 
         // Informações do carrinho
@@ -243,22 +263,18 @@ class ShoppingCart{
     }
 
     // ============================================================
-    public function alternativeAddress(){
-
-        // Receber os dados via AJAX(axios)
-        $post = json_decode(file_get_contents('php://input'), true);
-
-        // Adiciona na sessão a variável/array dados_alternativos
-        $_SESSION['dados_alternativos'] = [
-            'morada' => $post['text_morada'],
-            'cidade' => $post['text_cidade'],
-            'email' => $post['text_email'],
-            'telefone' => $post['text_telefone']
-        ];
-    }
-
-    // ============================================================
     public function confirmOrder(){
+
+        // Verifica se existe cliente logado
+        if (!isset($_SESSION['cliente'])) {
+            Store::redirect('home');
+        }
+
+        // Verifica se pode avançar para o registo da encomenda na BD
+        if (!isset($_SESSION['shoppingcart']) || count($_SESSION['shoppingcart']) == 0) {
+            Store::redirect('home');
+            return;
+        }
 
         // Enviar email ao cliente tratar os dados e guardar encomenda na BD
         $dados_encomenda = [];
@@ -339,15 +355,22 @@ class ShoppingCart{
         $order = new Orders();
         $order->saveOrderBD($dados_encomenda, $dados_produtos);
 
-        // Dados da encomenda a apresentar na view
+        // Prepara os dados a apresentar na pagina de agradecimento
         $order_code = $_SESSION['order_code'];
         $total_encomenda = $_SESSION['total_encomenda'];
+
+        // Limpa todos os dados da encomenda no carrinho
+        unset($_SESSION['order_code']);
+        unset($_SESSION['shoppingcart']);
+        unset($_SESSION['total_encomenda']);
+        unset($_SESSION['dados_alternativos']);
+
+        // Apresenta a pagina de confirmação da encomenda
         $dados = [
             'order_code' => $order_code,
             'total_encomenda' => $total_encomenda
         ];
 
-        // Apresenta a pagina de confirmação da encomenda
         Store::Layout([
             'layouts/html_header',
             'layouts/header',

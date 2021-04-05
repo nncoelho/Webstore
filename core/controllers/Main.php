@@ -2,7 +2,6 @@
 
 namespace core\controllers;
 
-use core\classes\Database;
 use core\classes\SendEmail;
 use core\classes\Store;
 use core\models\Clients;
@@ -58,7 +57,7 @@ class Main{
     public function signup(){
 
         // Verifica se ja existe sessao
-        if (Store::clienteLogado()) {
+        if (Store::clientLogged()) {
             $this->index();
             return;
         }
@@ -74,10 +73,10 @@ class Main{
     }
 
     // ============================================================
-    public function signup_submit(){
+    public function signupSubmit(){
 
         // Verifica se ja existe sessao
-        if (Store::clienteLogado()) {
+        if (Store::clientLogged()) {
             $this->index();
             return;
         }
@@ -128,10 +127,10 @@ class Main{
     }
 
     // ============================================================
-    public function confirm_email(){
+    public function confirmEmail(){
 
         // Verifica se ja existe sessao
-        if (Store::clienteLogado()) {
+        if (Store::clientLogged()) {
             $this->index();
             return;
         }
@@ -172,7 +171,7 @@ class Main{
     public function login(){
 
         // Verifica se já existe um cliente logado
-        if (Store::clienteLogado()) {
+        if (Store::clientLogged()) {
             Store::redirect();
             return;
         }
@@ -188,10 +187,10 @@ class Main{
     }
 
     // ============================================================
-    public function login_submit(){
+    public function loginSubmit(){
 
         // Verifica se já existe um cliente logado
-        if (Store::clienteLogado()) {
+        if (Store::clientLogged()) {
             Store::redirect();
             return;
         }
@@ -239,7 +238,7 @@ class Main{
                 // Remove a varivável temporária da sessão
                 unset($_SESSION['tmp_cart']);
                 // Redireciona para o resumo da encomenda
-                Store::redirect('finalizeOrderResume');
+                Store::redirect('finalize_order_resume');
             } else {
                 // Redireciona para a loja
                 Store::redirect();
@@ -257,5 +256,71 @@ class Main{
 
         // Redirecciona para a home page da webstore
         Store::redirect();
+    }
+
+    // ============================================================
+    // PERFIL DE UTILIZADOR
+    // ============================================================
+    public function profile(){
+
+        // Verifica se existe um utilizador logado
+        if (!Store::clientLogged()) {
+            Store::redirect();
+            return;
+        }
+
+        // Vai buscar informações do cliente
+        $cliente = new Clients();
+        $dtemp = $cliente->getClientData($_SESSION['cliente']);
+        $dados_cliente = [
+            'E-mail'        => $dtemp->email,
+            'Nome completo' => $dtemp->nome_completo,
+            'Morada'        => $dtemp->morada,
+            'Cidade'        => $dtemp->cidade,
+            'Telefone'      => $dtemp->telefone
+        ];
+        $dados = [
+            'dados_cliente' => $dados_cliente
+        ];
+
+        // Página de perfil de utilizador
+        Store::Layout([
+            'layouts/html_header',
+            'layouts/header',
+            'profile_nav',
+            'profile',
+            'layouts/footer',
+            'layouts/html_footer'
+        ], $dados);
+    }
+
+    // ============================================================
+    public function changePersonalData(){
+
+        echo 'Alterar dados pessoais';
+    }
+
+    // ============================================================
+    public function changePersonalDataSubmit(){
+
+        echo 'Alterar dados pessoais submit';
+    }
+
+    // ============================================================
+    public function changePassword(){
+
+        echo 'Alterar Password';
+    }
+
+    // ============================================================
+    public function changePasswordSubmit(){
+
+        echo 'Alterar Password submit';
+    }
+
+    // ============================================================
+    public function orderHistory(){
+
+        echo 'Histórico de encomendas';
     }
 }
