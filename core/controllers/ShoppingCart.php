@@ -23,7 +23,7 @@ class ShoppingCart{
         // Define o id do produto
         $id_produto = $_GET['id_produto'];
         $produtos = new Products();
-        $resultados = $produtos->verifica_stock_produto($id_produto);
+        $resultados = $produtos->checkProductStock($id_produto);
         if (!$resultados) {
             echo (isset($_SESSION['shoppingcart'])) ? count($_SESSION['shoppingcart']) : '';
             return;
@@ -101,7 +101,7 @@ class ShoppingCart{
 
             $ids = implode(",", $ids);
             $produtos = new Products();
-            $resultados = $produtos->get_products_by_ids($ids);
+            $resultados = $produtos->getProductsByIds($ids);
 
             $dados_encomenda = [];
             foreach ($_SESSION['shoppingcart'] as $id_produto => $quantidade) {
@@ -203,7 +203,7 @@ class ShoppingCart{
         }
         $ids = implode(",", $ids);
         $produtos = new Products();
-        $resultados = $produtos->get_products_by_ids($ids);
+        $resultados = $produtos->getProductsByIds($ids);
 
         $dados_encomenda = [];
         foreach ($_SESSION['shoppingcart'] as $id_produto => $quantidade) {
@@ -286,7 +286,7 @@ class ShoppingCart{
         }
         $ids = implode(",", $ids);
         $produtos = new Products();
-        $produtos_encomenda = $produtos->get_products_by_ids($ids);
+        $produtos_encomenda = $produtos->getProductsByIds($ids);
 
         // Estrutura dos dados dos produtos
         $string_produtos = [];

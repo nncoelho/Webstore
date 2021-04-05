@@ -35,8 +35,8 @@ class Main{
         }
 
         // Vai buscar todos os produtos e a lista de categorias disponiveis na BD
-        $lista_produtos = $produtos->lista_produtos_disponiveis($categoria);
-        $lista_categorias = $produtos->lista_categorias();
+        $lista_produtos = $produtos->listAvailableProducts($categoria);
+        $lista_categorias = $produtos->listCategories();
 
         $dados = [
             'produtos' => $lista_produtos,
@@ -149,7 +149,7 @@ class Main{
         }
 
         $cliente = new Clients();
-        $validation = $cliente->validate_email($purl);
+        $validation = $cliente->validateEmail($purl);
 
         if ($validation) {
             // Apresenta mensagem de conta validada com sucesso
@@ -219,7 +219,7 @@ class Main{
 
         // Carrega o model e verifica se o login é válido
         $cliente = new Clients();
-        $resultado = $cliente->validate_login($utilizador, $senha);
+        $resultado = $cliente->validateLogin($utilizador, $senha);
 
         // Analisa o resultado
         if (is_bool($resultado)) {

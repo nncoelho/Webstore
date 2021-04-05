@@ -67,7 +67,7 @@ class Clients{
     }
 
     // ============================================================
-    public function validate_email($purl){
+    public function validateEmail($purl){
 
         // Validar o email do novo cliente
         $bd = new Database();
@@ -96,7 +96,7 @@ class Clients{
     }
 
     // ============================================================
-    public function validate_login($utilizador, $senha){
+    public function validateLogin($utilizador, $senha){
 
         // Verifica se o login é válido
         $parametros = [

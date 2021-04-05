@@ -8,13 +8,13 @@ use core\classes\Store;
 class Products{
 
     // ============================================================
-    public function lista_produtos_disponiveis($categoria){
+    public function listAvailableProducts($categoria){
 
         // Obtem todas as informações dos produtos da BD
         $bd = new Database();
 
         // Obtem a lista das categorias na BD
-        $categorias = $this->lista_categorias();
+        $categorias = $this->listCategories();
 
         $sql = "SELECT * FROM produtos ";
         $sql .= "WHERE visivel = 1 ";
@@ -28,7 +28,7 @@ class Products{
     }
 
     // ============================================================
-    public function lista_categorias(){
+    public function listCategories(){
 
         // Devolve a lista de categorias existentes na BD
         $bd = new Database();
@@ -41,7 +41,7 @@ class Products{
     }
 
     // ============================================================
-    public function verifica_stock_produto($id_produto){
+    public function checkProductStock($id_produto){
 
         $bd = new Database();
         $parametros = [
@@ -53,7 +53,7 @@ class Products{
     }
 
     // ============================================================
-    public function get_products_by_ids($ids){
+    public function getProductsByIds($ids){
 
         $bd = new Database();
         return $bd->select("SELECT * FROM produtos WHERE id_produto IN ($ids)");
