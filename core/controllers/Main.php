@@ -297,19 +297,101 @@ class Main{
     // ============================================================
     public function changePersonalData(){
 
-        echo 'Alterar dados pessoais';
+        // Verifica se existe um utilizador logado
+        if (!Store::clientLogged()) {
+            Store::redirect();
+            return;
+        }
+
+        // Vai buscar os dados pessoais
+        $cliente = new Clients();
+        $dados = [
+            'dados_pessoais' => $cliente->getClientData($_SESSION['cliente'])
+        ];
+
+        // Alterar dados pessoais
+        Store::Layout([
+            'layouts/html_header',
+            'layouts/header',
+            'profile_nav',
+            'change_personal_data',
+            'layouts/footer',
+            'layouts/html_footer'
+        ], $dados);
     }
 
     // ============================================================
     public function changePersonalDataSubmit(){
 
-        echo 'Alterar dados pessoais submit';
+        // Verifica se existe um utilizador logado
+        if (!Store::clientLogged()) {
+            Store::redirect();
+            return;
+        }
+
+        // Verifica se houve uma submissão do formulário
+        if($_SERVER['REQUEST_METHOD'] != 'POST'){
+            Store::redirect();
+            return;
+        }
+
+        // Validar dados
+        $email = trim(strtolower($_POST['text_email']));
+        $nome_completo = trim($_POST['text_nome_completo']);
+        $morada = trim($_POST['text_morada']);
+        $cidade = trim($_POST['text_cidade']);
+        $telefone = trim($_POST['text_telefone']);
+
+        // Validar se o email é valido
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            $_SESSION['erro'] = 'Endereço de e-mail inválido';
+            $this->changePersonalData();
+            return;
+        }
+
+        // Validar os restantes campos
+        if(empty($nome_completo) || empty($morada) || empty($cidade)){
+            $_SESSION['erro'] = 'Preencha correctamente o formulário';  
+            $this->changePersonalData();
+            return;
+        }
+
+        // Validar se o e-mail já existe noutra conta de cliente
+        $cliente = new Clients();
+        $already_exists = $cliente->checkifMailExistsInOtherAccount($_SESSION['cliente'], $email);
+        if($already_exists){
+            $_SESSION['erro'] = 'Endereço de e-mail já existe noutra conta de cliente';
+            $this->changePersonalData();
+            return;
+        }
+
+        // Atualizar os dados do cliente na base de dados
+        $cliente->updateClientDatainBD($email, $nome_completo, $morada, $cidade, $telefone);
+
+        // Redirecciona para a página do perfil do cliente
+        Store::redirect('profile');
     }
 
     // ============================================================
     public function changePassword(){
 
-        echo 'Alterar Password';
+        // Verifica se existe um utilizador logado
+        if (!Store::clientLogged()) {
+            Store::redirect();
+            return;
+        }
+
+        $dados = [];
+
+        // Alterar dados pessoais
+        Store::Layout([
+            'layouts/html_header',
+            'layouts/header',
+            'profile_nav',
+            'change_password',
+            'layouts/footer',
+            'layouts/html_footer'
+        ], $dados);
     }
 
     // ============================================================
@@ -321,6 +403,22 @@ class Main{
     // ============================================================
     public function orderHistory(){
 
-        echo 'Histórico de encomendas';
+        // Verifica se existe um utilizador logado
+        if (!Store::clientLogged()) {
+            Store::redirect();
+            return;
+        }
+
+        $dados = [];
+
+        // Alterar dados pessoais
+        Store::Layout([
+            'layouts/html_header',
+            'layouts/header',
+            'profile_nav',
+            'order_history',
+            'layouts/footer',
+            'layouts/html_footer'
+        ], $dados);
     }
 }

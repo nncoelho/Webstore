@@ -139,4 +139,50 @@ class Clients{
             FROM clientes WHERE id_cliente = :id_cliente", $parametros);
         return $resultados[0];
     }
+
+    // ============================================================
+    public function checkifMailExistsInOtherAccount($id_cliente, $email){
+
+        // Verifica se já existe o email noutra conta de cliente
+        $parametros = [
+            ':email' => $email,
+            ':id_cliente' => $id_cliente
+        ];
+
+        $bd = new Database();
+        $resultados = $bd->select("SELECT id_cliente FROM clientes WHERE id_cliente <> :id_cliente AND email = :email", $parametros);
+
+        if (count($resultados) != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // ============================================================
+    public function updateClientDatainBD($email, $nome_completo, $morada, $cidade, $telefone){
+
+        // Atualiza os dados do cliente na base de dados
+        $parametros = [
+            ':id_cliente' => $_SESSION['cliente'],
+            ':email' => $email,
+            ':nome_completo' => $nome_completo,
+            ':morada' => $morada,
+            ':cidade' => $cidade,
+            ':telefone' => $telefone
+        ];
+
+        $bd = new Database();
+        $bd->update(
+            "UPDATE clientes 
+                SET email = :email, 
+                nome_completo = :nome_completo, 
+                morada = :morada, 
+                cidade = :cidade,
+                telefone = :telefone,
+                updated_at = NOW()
+                WHERE id_cliente = :id_cliente",
+            $parametros
+        );
+    }
 }

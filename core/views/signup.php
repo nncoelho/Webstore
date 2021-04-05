@@ -39,7 +39,7 @@
                     <input type="text" name="text_telefone" class="form-control" placeholder="Número de telefone (opcional)">
                 </div>
 
-                <!-- Mensagem de erro no caso das senhas não coincidirem -->
+                <!-- Tratamento de mensagens de erro -->
                 <?php if (isset($_SESSION['erro'])) : ?>
                     <div class="alert alert-danger my-3 text-center p-2">
                         <?= $_SESSION['erro'] ?>
