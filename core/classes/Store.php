@@ -58,6 +58,17 @@ class Store{
     }
 
     // ============================================================
+    // ENCRIPTAR / DECRIPTAR ID ENCOMENDA
+    // ============================================================
+    public static function aesEncrypt($valor){
+        return bin2hex(openssl_encrypt($valor, 'aes-256-cbc', AES_KEY, OPENSSL_RAW_DATA, AES_IV));
+    }
+
+    public static function aesDecrypt($valor){
+        return openssl_decrypt(hex2bin($valor), 'aes-256-cbc', AES_KEY, OPENSSL_RAW_DATA, AES_IV);
+    }
+
+    // ============================================================
     public static function printData($data){
         if (is_array($data) || is_object($data)) {
             echo '<pre>';

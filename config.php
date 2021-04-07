@@ -12,6 +12,10 @@ define('MYSQL_USER',        'user_webstore');
 define('MYSQL_PASS',        'yOk574D3yuCe');
 define('MYSQL_CHARSET',     'utf8');
 
+// AES ENCRYPT/DECRYPT
+define('AES_KEY',           'UjRLrQ8QVtBr03nLc9HYVb3mITs7Fsog');
+define('AES_IV',            'KGo9gibaYWTvzknu');
+
 // EMAIL
 define('EMAIL_HOST',        'smtp.gmail.com');
 define('EMAIL_FROM',        'fenixdevsoft@gmail.com');

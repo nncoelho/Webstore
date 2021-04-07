@@ -22,6 +22,7 @@ $routes = [
     'change_password'               => 'main@changePassword',
     'change_password_submit'        => 'main@changePasswordSubmit',
     'order_history'                 => 'main@orderHistory',
+    'order_detail'                  => 'main@orderHistoryDetail',
 
     // Shopping cart
     'shoppingcart'              => 'shoppingcart@shoppingCart',

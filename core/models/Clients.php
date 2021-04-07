@@ -15,7 +15,13 @@ class Clients{
         $parametros = [
             ':email' => strtolower(trim($email))
         ];
-        $resultados = $bd->select('SELECT email FROM clientes WHERE email = :email', $parametros);
+        
+        $resultados = $bd->select(
+            "SELECT email 
+                FROM clientes 
+                WHERE email = :email",
+            $parametros
+        );
 
         // Caso exista alguma conta com o mesmo email
         if (count($resultados) != 0) {
@@ -45,8 +51,8 @@ class Clients{
             ':activo' => 0
         ];
 
-        $bd->insert("
-            INSERT INTO clientes VALUES(
+        $bd->insert(
+            "INSERT INTO clientes VALUES(
                 0,
                 :email,
                 :senha,
@@ -58,9 +64,9 @@ class Clients{
                 :activo,
                 NOW(),
                 NOW(),
-                NULL
-            )
-        ", $parametros);
+                NULL)",
+            $parametros
+        );
 
         // Retorna o purl criado
         return $purl;
@@ -74,7 +80,12 @@ class Clients{
         $parametros = [
             ':purl' => $purl
         ];
-        $resultados = $bd->select("SELECT * FROM clientes WHERE purl = :purl", $parametros);
+
+        $resultados = $bd->select(
+            "SELECT * FROM clientes 
+                WHERE purl = :purl",
+            $parametros
+        );
 
         // Verifica se foi encontrado o cliente
         if (count($resultados) != 1) {
@@ -88,10 +99,13 @@ class Clients{
         $parametros = [
             ':id_cliente' => $id_cliente,
         ];
-        $bd->update("UPDATE clientes SET purl = NULL, 
-            activo = 1, 
-            updated_at = NOW() 
-            WHERE id_cliente = :id_cliente", $parametros);
+        $bd->update(
+            "UPDATE clientes SET purl = NULL, 
+                activo = 1, 
+                updated_at = NOW() 
+                WHERE id_cliente = :id_cliente",
+            $parametros
+        );
         return true;
     }
 
@@ -105,9 +119,12 @@ class Clients{
 
         // Verifica se existe um cliente registado com o endereço de email indicado
         $bd = new Database();
-        $resultados = $bd->select("SELECT * FROM clientes 
-            WHERE email = :utilizador 
-            AND activo = 1 AND deleted_at IS NULL", $parametros);
+        $resultados = $bd->select(
+            "SELECT * FROM clientes 
+                WHERE email = :utilizador 
+                AND activo = 1 AND deleted_at IS NULL",
+            $parametros
+        );
 
         if (count($resultados) != 1) {
             return false;
@@ -134,9 +151,12 @@ class Clients{
         ];
 
         $bd = new Database();
-        $resultados = $bd->select("SELECT 
-            email, nome_completo, morada, cidade, telefone 
-            FROM clientes WHERE id_cliente = :id_cliente", $parametros);
+        $resultados = $bd->select(
+            "SELECT email, nome_completo, morada, cidade, telefone 
+                FROM clientes 
+                WHERE id_cliente = :id_cliente",
+            $parametros
+        );
         return $resultados[0];
     }
 
@@ -150,7 +170,13 @@ class Clients{
         ];
 
         $bd = new Database();
-        $resultados = $bd->select("SELECT id_cliente FROM clientes WHERE id_cliente <> :id_cliente AND email = :email", $parametros);
+        $resultados = $bd->select(
+            "SELECT id_cliente 
+                FROM clientes 
+                WHERE id_cliente <> :id_cliente 
+                AND email = :email",
+            $parametros
+        );
 
         if (count($resultados) != 0) {
             return true;
@@ -180,6 +206,44 @@ class Clients{
                 morada = :morada, 
                 cidade = :cidade,
                 telefone = :telefone,
+                updated_at = NOW()
+                WHERE id_cliente = :id_cliente",
+            $parametros
+        );
+    }
+
+    // ============================================================
+    public function checkIfPasswordMatchesWithBD($id_cliente, $senha_atual){
+
+        // Verifica se a password atual coincide com a que está na BD
+        $parametros = [
+            ':id_cliente' => $id_cliente
+        ];
+
+        $bd = new Database();
+        $senhaBD = $bd->select(
+            "SELECT senha 
+                FROM clientes 
+                WHERE id_cliente = :id_cliente",
+            $parametros
+        )[0]->senha;
+
+        return password_verify($senha_atual, $senhaBD);
+    }
+
+    // ============================================================
+    public function updateNewPasswordInBD($id_cliente, $nova_senha){
+
+        // Atualização da senha do cliente na base de dados
+        $parametros = [
+            ':id_cliente' => $id_cliente,
+            ':nova_senha' => password_hash($nova_senha, PASSWORD_DEFAULT)
+        ];
+
+        $bd = new Database();
+        $bd->update(
+            "UPDATE clientes 
+                SET senha = :nova_senha,
                 updated_at = NOW()
                 WHERE id_cliente = :id_cliente",
             $parametros

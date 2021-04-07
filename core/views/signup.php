@@ -11,7 +11,7 @@
                 <!-- Password -->
                 <div class="my-3">
                     <small><label>Password:</label></small>
-                    <input type="password" name="text_senha1" class="form-control" placeholder="Crie a sua password" required>
+                    <input type="password" name="text_senha1" class="form-control" placeholder="Password min. 6 caracteres" required>
                 </div>
                 <!-- Password confirmacao -->
                 <div class="my-3">
@@ -39,7 +39,7 @@
                     <input type="text" name="text_telefone" class="form-control" placeholder="Número de telefone (opcional)">
                 </div>
 
-                <!-- Tratamento de mensagens de erro -->
+                <!-- Tratamento de mensagens de erro no caso de existirem -->
                 <?php if (isset($_SESSION['erro'])) : ?>
                     <div class="alert alert-danger my-3 text-center p-2">
                         <?= $_SESSION['erro'] ?>

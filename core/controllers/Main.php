@@ -5,6 +5,7 @@ namespace core\controllers;
 use core\classes\SendEmail;
 use core\classes\Store;
 use core\models\Clients;
+use core\models\Orders;
 use core\models\Products;
 
 class Main{
@@ -259,7 +260,7 @@ class Main{
     }
 
     // ============================================================
-    // PERFIL DE UTILIZADOR
+    // PERFIL DE CLIENTE / UTILIZADOR
     // ============================================================
     public function profile(){
 
@@ -309,7 +310,7 @@ class Main{
             'dados_pessoais' => $cliente->getClientData($_SESSION['cliente'])
         ];
 
-        // Alterar dados pessoais
+        // Página de alterar dados pessoais
         Store::Layout([
             'layouts/html_header',
             'layouts/header',
@@ -330,7 +331,7 @@ class Main{
         }
 
         // Verifica se houve uma submissão do formulário
-        if($_SERVER['REQUEST_METHOD'] != 'POST'){
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             Store::redirect();
             return;
         }
@@ -343,15 +344,15 @@ class Main{
         $telefone = trim($_POST['text_telefone']);
 
         // Validar se o email é valido
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['erro'] = 'Endereço de e-mail inválido';
             $this->changePersonalData();
             return;
         }
 
         // Validar os restantes campos
-        if(empty($nome_completo) || empty($morada) || empty($cidade)){
-            $_SESSION['erro'] = 'Preencha correctamente o formulário';  
+        if (empty($nome_completo) || empty($morada) || empty($cidade)) {
+            $_SESSION['erro'] = 'Preencha correctamente o formulário';
             $this->changePersonalData();
             return;
         }
@@ -359,14 +360,18 @@ class Main{
         // Validar se o e-mail já existe noutra conta de cliente
         $cliente = new Clients();
         $already_exists = $cliente->checkifMailExistsInOtherAccount($_SESSION['cliente'], $email);
-        if($already_exists){
+        if ($already_exists) {
             $_SESSION['erro'] = 'Endereço de e-mail já existe noutra conta de cliente';
             $this->changePersonalData();
             return;
         }
 
-        // Atualizar os dados do cliente na base de dados
+        // Atualiza os dados do cliente na base de dados
         $cliente->updateClientDatainBD($email, $nome_completo, $morada, $cidade, $telefone);
+
+        // Atualiza os dados do cliente na sessão
+        $_SESSION['utilizador'] = $email;
+        $_SESSION['nome_cliente'] = $nome_completo;
 
         // Redirecciona para a página do perfil do cliente
         Store::redirect('profile');
@@ -381,9 +386,7 @@ class Main{
             return;
         }
 
-        $dados = [];
-
-        // Alterar dados pessoais
+        // Página de alterar password
         Store::Layout([
             'layouts/html_header',
             'layouts/header',
@@ -391,13 +394,63 @@ class Main{
             'change_password',
             'layouts/footer',
             'layouts/html_footer'
-        ], $dados);
+        ]);
     }
 
     // ============================================================
     public function changePasswordSubmit(){
 
-        echo 'Alterar Password submit';
+        // Verifica se existe um utilizador logado
+        if (!Store::clientLogged()) {
+            Store::redirect();
+            return;
+        }
+
+        // Verifica se houve uma submissão do formulário
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            Store::redirect();
+            return;
+        }
+
+        // Validar dados
+        $senha_atual = trim($_POST['text_senha_atual']);
+        $nova_senha = trim($_POST['text_nova_senha']);
+        $rep_nova_senha = trim($_POST['text_rep_nova_senha']);
+
+        // Validar se a nova password vem com dados
+        if (strlen($nova_senha) < 6) {
+            $_SESSION['erro'] = "A nova password e a sua repetição tem que ter no minimo 6 caracteres";
+            $this->changePassword();
+            return;
+        }
+
+        // Verifica se a password nova e a sua repetição coincidem
+        if ($nova_senha != $rep_nova_senha) {
+            $_SESSION['erro'] = "A nova password e a sua repetição não coincidem";
+            $this->changePassword();
+            return;
+        }
+
+        // Verifica se a password atual coincide com a que está na BD
+        $cliente = new Clients();
+        if (!$cliente->checkIfPasswordMatchesWithBD($_SESSION['cliente'], $senha_atual)) {
+            $_SESSION['erro'] = "A password atual está errada";
+            $this->changePassword();
+            return;
+        }
+
+        // Verifica se a password nova é diferente da password atual
+        if ($senha_atual == $nova_senha) {
+            $_SESSION['erro'] = "A password nova não pode ser igual á password atual";
+            $this->changePassword();
+            return;
+        }
+
+        // Atualizar a nova password na BD
+        $cliente->updateNewPasswordInBD($_SESSION['cliente'], $nova_senha);
+
+        // Redirecciona para a página do perfil do cliente
+        Store::redirect('profile');
     }
 
     // ============================================================
@@ -409,9 +462,16 @@ class Main{
             return;
         }
 
-        $dados = [];
+        // Carrega o histórico das encomendas
+        $orders = new Orders();
+        $order_history = $orders->getOrderHistory($_SESSION['cliente']);
 
-        // Alterar dados pessoais
+        // Prepara os dados para passar para a view
+        $data = [
+            'order_history' => $order_history
+        ];
+
+        // Página de histórico de encomendas
         Store::Layout([
             'layouts/html_header',
             'layouts/header',
@@ -419,6 +479,13 @@ class Main{
             'order_history',
             'layouts/footer',
             'layouts/html_footer'
-        ], $dados);
+        ], $data);
+    }
+
+    // ============================================================
+    public function orderHistoryDetail(){
+
+        echo 'Detalhes!!!';
+
     }
 }
