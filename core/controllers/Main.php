@@ -485,7 +485,82 @@ class Main{
     // ============================================================
     public function orderHistoryDetail(){
 
-        echo 'Detalhes!!!';
+        // Verifica se existe um utilizador logado
+        if (!Store::clientLogged()) {
+            Store::redirect();
+            return;
+        }
 
+        // Verifica se veio indicado um id encomenda (encriptado)
+        if (!isset($_GET['id'])) {
+            Store::redirect();
+            return;
+        }
+
+        // Verifica se o id encomenda é uma string com 32 caracteres
+        $id_encomenda = null;
+        if (strlen($_GET['id']) != 32) {
+            Store::redirect();
+            return;
+        } else {
+            $id_encomenda = Store::aesDecrypt($_GET['id']);
+            if (empty($id_encomenda)) {
+                Store::redirect();
+                return;
+            }
+        }
+
+        // Verifica se a encomenda em questão pertence ao cliente logado
+        $orders = new Orders();
+        $resultado = $orders->checkClientOwnerOrder($_SESSION['cliente'], $id_encomenda);
+        if (!$resultado) {
+            Store::redirect();
+            return;
+        }
+
+        // Vai buscar os dados de detalhe da encomenda e prepara para view
+        $order_detail = $orders->orderDetails($_SESSION['cliente'], $id_encomenda);
+
+        // Cálculo do valor total da encomenda
+        $total = 0;
+        foreach ($order_detail['produtos_encomenda'] as $produto) {
+            $total += ($produto->quantidade * $produto->preco_unidade);
+        }
+
+        $data = [
+            'dados_encomenda' => $order_detail['dados_encomenda'],
+            'produtos_encomenda' => $order_detail['produtos_encomenda'],
+            'total_encomenda' => $total
+        ];
+
+        // Página de detalhe dos históricos das encomendas
+        Store::Layout([
+            'layouts/html_header',
+            'layouts/header',
+            'profile_nav',
+            'order_detail',
+            'layouts/footer',
+            'layouts/html_footer'
+        ], $data);
+    }
+
+    // ============================================================
+    // SIMULAÇÃO DO WEBHOOK DO GATEWAY DE PAGAMENTO
+    // ============================================================
+    public function pagamento(){
+
+        // Verifica se veio o código da encomenda indicado
+        $codigo_encomenda = '';
+        if (!isset($_GET['cod'])) {
+            return;
+        } else {
+            $codigo_encomenda = $_GET['cod'];
+        }
+
+        // Verifica se existe o código com o estado pendente
+        $orders = new Orders();
+        $resultado = $orders->payingOrder($codigo_encomenda);
+
+        echo (int)$resultado;
     }
 }

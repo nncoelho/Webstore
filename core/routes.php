@@ -5,12 +5,12 @@ $routes = [
     'home'          => 'main@index',
     'webstore'      => 'main@webstore',
 
-    // Clients
+    // Clientes
     'signup'        => 'main@signup',
     'signup_submit' => 'main@signupSubmit',
     'confirm_email' => 'main@confirmEmail',
 
-    // Login / Logout
+    // Login/Logout
     'login'         => 'main@login',
     'login_submit'  => 'main@loginSubmit',
     'logout'        => 'main@logout',
@@ -32,7 +32,10 @@ $routes = [
     'finalize_order'            => 'shoppingcart@finalizeOrder',
     'finalize_order_resume'     => 'shoppingcart@finalizeOrderResume',
     'alternative_address'       => 'shoppingcart@alternativeAddress',
-    'confirm_order'             => 'shoppingcart@confirmOrder'
+    'confirm_order'             => 'shoppingcart@confirmOrder',
+
+    // Pagamentos
+    'pagamento'                 => 'main@pagamento'
 ];
 
 // Define a ação por defeito

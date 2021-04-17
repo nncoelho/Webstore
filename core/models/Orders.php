@@ -84,4 +84,95 @@ class Orders{
         );
         return $resultados;
     }
+
+    // ============================================================
+    public function checkClientOwnerOrder($id_cliente, $id_encomenda){
+
+        // Verifica se a encomenda tem relação com o cliente logado
+        $parametros = [
+            ':id_cliente' => $id_cliente,
+            ':id_encomenda' => $id_encomenda
+        ];
+
+        $bd = new Database();
+        $resultado = $bd->select(
+            "SELECT id_encomenda
+                FROM encomendas
+                WHERE id_encomenda = :id_encomenda
+                AND id_cliente = :id_cliente",
+            $parametros
+        );
+
+        return count($resultado) == 0 ? false : true;
+    }
+
+    // ============================================================
+    public function orderDetails($id_cliente, $id_encomenda){
+
+        // Vai buscar os dados da encomenda e a lista dos produtos
+        $parametros = [
+            ':id_cliente' => $id_cliente,
+            ':id_encomenda' => $id_encomenda
+        ];
+
+        // Dados dos detalhes da encomenda
+        $bd = new Database();
+        $dados_encomenda = $bd->select(
+            "SELECT *
+                FROM encomendas
+                WHERE id_cliente = :id_cliente
+                AND id_encomenda = :id_encomenda",
+            $parametros
+        )[0];
+
+        // Dados da lista de produtos da encomenda
+        $parametros = [
+            ':id_encomenda' => $id_encomenda
+        ];
+
+        $produtos_encomenda = $bd->select(
+            "SELECT *
+                FROM encomenda_produto
+                WHERE id_encomenda = :id_encomenda",
+            $parametros
+        );
+
+        // Devolve ao controlador os dados do detalhe da encomenda
+        return [
+            'dados_encomenda' => $dados_encomenda,
+            'produtos_encomenda' => $produtos_encomenda
+        ];
+    }
+
+    // ============================================================
+    public function payingOrder($codigo_encomenda){
+
+        $parametros = [
+            ':codigo_encomenda' => $codigo_encomenda
+        ];
+
+        $bd = new Database();
+        $resultado = $bd->select(
+            "SELECT *
+                FROM encomendas
+                WHERE codigo_encomenda = :codigo_encomenda
+                AND status = 'PENDENTE'",
+            $parametros
+        );
+
+        if (count($resultado) == 0) {
+            return false;
+        }
+
+        // Efectua a alteração do estado da encomenda indicada
+        $bd->update(
+            "UPDATE encomendas
+                SET status = 'EM PROCESSAMENTO',
+                updated_at = NOW() 
+                WHERE codigo_encomenda = :codigo_encomenda",
+            $parametros
+        );
+
+        return true;
+    }
 }
