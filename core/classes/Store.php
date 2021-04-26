@@ -7,7 +7,7 @@ use Exception;
 class Store{
 
     // ============================================================
-    public static function Layout($estruturas, $dados = null){
+    public static function layout($estruturas, $dados = null){
 
         // Verifica se estruturas é um array
         if (!is_array($estruturas)) {
@@ -26,10 +26,37 @@ class Store{
     }
 
     // ============================================================
+    public static function layoutAdmin($estruturas, $dados = null){
+
+        // Verifica se estruturas é um array
+        if (!is_array($estruturas)) {
+            throw new Exception("Coleção de estruturas inválida");
+        }
+
+        // Variáveis
+        if (!empty($dados) && is_array($dados)) {
+            extract($dados);
+        }
+
+        // Apresenta as views da aplicação
+        foreach ($estruturas as $estrutura) {
+            include("../../core/views/$estrutura.php");
+        }
+    }
+
+
+    // ============================================================
     public static function clientLogged(){
 
         // Verifica se existe um cliente logado
         return isset($_SESSION['cliente']);
+    }
+
+    // ============================================================
+    public static function adminLogged(){
+
+        // Verifica se existe um admin logado
+        return isset($_SESSION['admin']);
     }
 
     // ============================================================
@@ -40,10 +67,14 @@ class Store{
     }
 
     // ============================================================
-    public static function redirect($route = ''){
+    public static function redirect($route = '', $admin = false){
 
         // Faz o redirecionamento para a URL desejada (route)
-        header("Location: " . BASE_URL . "?a=$route");
+        if (!$admin) {
+            header("Location: " . BASE_URL . "?a=$route");
+        } else {
+            header("Location: " . BASE_URL . "admin?a=$route");
+        }
     }
 
     // ============================================================

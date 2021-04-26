@@ -144,12 +144,12 @@ class ShoppingCart{
         }
 
         // Apresenta a pagina do carrinho
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'shopping_cart',
-            'layouts/footer',
-            'layouts/html_footer'
+        Store::layout([
+            'clients/layouts/html_header',
+            'clients/layouts/header',
+            'clients/shopping_cart',
+            'clients/layouts/footer',
+            'clients/layouts/html_footer'
         ], $dados);
     }
 
@@ -253,12 +253,12 @@ class ShoppingCart{
         }
 
         // Apresenta a pagina de resumo da encomenda
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'order_resume',
-            'layouts/footer',
-            'layouts/html_footer'
+        Store::layout([
+            'clients/layouts/html_header',
+            'clients/layouts/header',
+            'clients/order_resume',
+            'clients/layouts/footer',
+            'clients/layouts/html_footer'
         ], $dados);
     }
 
@@ -371,12 +371,12 @@ class ShoppingCart{
             'total_encomenda' => $total_encomenda
         ];
 
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'confirm_order',
-            'layouts/footer',
-            'layouts/html_footer'
+        Store::layout([
+            'clients/layouts/html_header',
+            'clients/layouts/header',
+            'clients/confirm_order',
+            'clients/layouts/footer',
+            'clients/layouts/html_footer'
         ], $dados);
     }
 }

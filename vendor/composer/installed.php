@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'ec8a16293c5bfd6d74a8a6aab1133ae3a3a3f0ab',
+    'reference' => '048fd97a31edbca54d56957163f0fd7843fee5f5',
     'name' => 'coelho/webstore',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'ec8a16293c5bfd6d74a8a6aab1133ae3a3a3f0ab',
+      'reference' => '048fd97a31edbca54d56957163f0fd7843fee5f5',
     ),
     'phpmailer/phpmailer' => 
     array (

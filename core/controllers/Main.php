@@ -14,12 +14,12 @@ class Main{
     public function index(){
 
         // Apresenta a pagina inicial
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'home',
-            'layouts/footer',
-            'layouts/html_footer'
+        Store::layout([
+            'clients/layouts/html_header',
+            'clients/layouts/header',
+            'clients/home',
+            'clients/layouts/footer',
+            'clients/layouts/html_footer'
         ]);
     }
 
@@ -45,12 +45,12 @@ class Main{
         ];
 
         // Apresenta a pagina da loja
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'webstore',
-            'layouts/footer',
-            'layouts/html_footer'
+        Store::layout([
+            'clients/layouts/html_header',
+            'clients/layouts/header',
+            'clients/webstore',
+            'clients/layouts/footer',
+            'clients/layouts/html_footer'
         ], $dados);
     }
 
@@ -64,12 +64,12 @@ class Main{
         }
 
         // Apresenta a pagina do signup
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'signup',
-            'layouts/footer',
-            'layouts/html_footer'
+        Store::layout([
+            'clients/layouts/html_header',
+            'clients/layouts/header',
+            'clients/signup',
+            'clients/layouts/footer',
+            'clients/layouts/html_footer'
         ]);
     }
 
@@ -116,12 +116,12 @@ class Main{
 
         if ($send_email) {
             // Apresenta mensagem de conta criada e email enviado com sucesso
-            Store::Layout([
-                'layouts/html_header',
-                'layouts/header',
-                'signup_success',
-                'layouts/footer',
-                'layouts/html_footer'
+            Store::layout([
+                'clients/layouts/html_header',
+                'clients/layouts/header',
+                'clients/signup_success',
+                'clients/layouts/footer',
+                'clients/layouts/html_footer'
             ]);
             return;
         }
@@ -154,12 +154,12 @@ class Main{
 
         if ($validation) {
             // Apresenta mensagem de conta validada com sucesso
-            Store::Layout([
-                'layouts/html_header',
-                'layouts/header',
-                'validate_success',
-                'layouts/footer',
-                'layouts/html_footer'
+            Store::layout([
+                'clients/layouts/html_header',
+                'clients/layouts/header',
+                'clients/validate_success',
+                'clients/layouts/footer',
+                'clients/layouts/html_footer'
             ]);
             return;
         } else {
@@ -178,12 +178,12 @@ class Main{
         }
 
         // Apresenta o formulário de login
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'login',
-            'layouts/footer',
-            'layouts/html_footer'
+        Store::layout([
+            'clients/layouts/html_header',
+            'clients/layouts/header',
+            'clients/login',
+            'clients/layouts/footer',
+            'clients/layouts/html_footer'
         ]);
     }
 
@@ -285,13 +285,13 @@ class Main{
         ];
 
         // Página de perfil de utilizador
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'profile_nav',
-            'profile',
-            'layouts/footer',
-            'layouts/html_footer'
+        Store::layout([
+            'clients/layouts/html_header',
+            'clients/layouts/header',
+            'clients/profile_nav',
+            'clients/profile',
+            'clients/layouts/footer',
+            'clients/layouts/html_footer'
         ], $dados);
     }
 
@@ -311,13 +311,13 @@ class Main{
         ];
 
         // Página de alterar dados pessoais
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'profile_nav',
-            'change_personal_data',
-            'layouts/footer',
-            'layouts/html_footer'
+        Store::layout([
+            'clients/layouts/html_header',
+            'clients/layouts/header',
+            'clients/profile_nav',
+            'clients/change_personal_data',
+            'clients/layouts/footer',
+            'clients/layouts/html_footer'
         ], $dados);
     }
 
@@ -387,13 +387,13 @@ class Main{
         }
 
         // Página de alterar password
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'profile_nav',
-            'change_password',
-            'layouts/footer',
-            'layouts/html_footer'
+        Store::layout([
+            'clients/layouts/html_header',
+            'clients/layouts/header',
+            'clients/profile_nav',
+            'clients/change_password',
+            'clients/layouts/footer',
+            'clients/layouts/html_footer'
         ]);
     }
 
@@ -472,13 +472,13 @@ class Main{
         ];
 
         // Página de histórico de encomendas
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'profile_nav',
-            'order_history',
-            'layouts/footer',
-            'layouts/html_footer'
+        Store::layout([
+            'clients/layouts/html_header',
+            'clients/layouts/header',
+            'clients/profile_nav',
+            'clients/order_history',
+            'clients/layouts/footer',
+            'clients/layouts/html_footer'
         ], $data);
     }
 
@@ -534,13 +534,13 @@ class Main{
         ];
 
         // Página de detalhe dos históricos das encomendas
-        Store::Layout([
-            'layouts/html_header',
-            'layouts/header',
-            'profile_nav',
-            'order_detail',
-            'layouts/footer',
-            'layouts/html_footer'
+        Store::layout([
+            'clients/layouts/html_header',
+            'clients/layouts/header',
+            'clients/profile_nav',
+            'clients/order_detail',
+            'clients/layouts/footer',
+            'clients/layouts/html_footer'
         ], $data);
     }
 
