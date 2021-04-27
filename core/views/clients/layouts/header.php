@@ -13,12 +13,10 @@ if (isset($_SESSION['shoppingcart'])) {
 
 <div class="container-fluid navegacao">
     <div class="row">
-        <div class="col-6 p-3">
-            <a href="?a=home">
-                <h3><?= APP_NAME ?></h3>
-            </a>
+        <div class="col-6 p-3 align-self-center">
+            <h3><?= APP_NAME . ' ' . APP_VERSION ?></h3>
         </div>
-        <div class="col-6 p-3 text-end">
+        <div class="col-6 p-3 text-end align-self-center">
             <a href="?a=home" class="nav-item">Home</a>
             <a href="?a=webstore" class="nav-item">Store</a>
 

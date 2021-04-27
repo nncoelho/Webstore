@@ -20,6 +20,14 @@ class Admin{
             return;
         }
 
+        // Total de encomendas em estado PENDENTE
+        $admin = new Admins();
+        $total_pending_orders = $admin->totalPendingOrders();
+
+        $dados = [
+            'total_pending_orders' => $total_pending_orders
+        ];
+
         // Apresenta a pagina home do admin
         Store::layoutAdmin([
             'admin/layouts/html_header',
@@ -27,7 +35,7 @@ class Admin{
             'admin/home',
             'admin/layouts/footer',
             'admin/layouts/html_footer'
-        ]);
+        ], $dados);
     }
 
     // ============================================================
@@ -98,6 +106,17 @@ class Admin{
             // Redireciona para a pagina inicial do backoffice
             Store::redirect('home', true);
         }
+    }
+
+    // ============================================================
+    public function adminLogout(){
+
+        // Remove as variáveis da sessão
+        unset($_SESSION['admin']);
+        unset($_SESSION['administrador']);
+
+        // Redirecciona para a pagin de login do admin
+        Store::redirect('admin_login', true);
     }
 
     // ============================================================

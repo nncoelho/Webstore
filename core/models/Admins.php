@@ -41,4 +41,17 @@ class Admins{
             }
         }
     }
+
+    // ============================================================
+    public function totalPendingOrders(){
+
+        // Vai buscar a quantidade de encomendas pendentes
+        $bd = new Database();
+        $resultados = $bd->select(
+            "SELECT COUNT(*) total
+            FROM encomendas
+            WHERE status = 'PENDENTE'"
+        );
+        return $resultados[0]->total;
+    }
 }
