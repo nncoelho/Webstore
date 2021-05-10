@@ -20,12 +20,14 @@ class Admin{
             return;
         }
 
-        // Total de encomendas em estado PENDENTE
+        // Verifica o estado das encomendas
         $admin = new Admins();
         $total_pending_orders = $admin->totalPendingOrders();
+        $total_processing_orders = $admin->totalProcessingOrders();
 
         $dados = [
-            'total_pending_orders' => $total_pending_orders
+            'total_pending_orders' => $total_pending_orders,
+            'total_processing_orders' => $total_processing_orders
         ];
 
         // Apresenta a pagina home do admin
@@ -60,7 +62,7 @@ class Admin{
     // ============================================================
     public function adminLoginSubmit(){
 
-        // Verifica se já existe um admin logado
+        // Verifica se existe um admin logado
         if (Store::adminLogged()) {
             Store::redirect('home', true);
             return;
@@ -122,6 +124,94 @@ class Admin{
     // ============================================================
     public function clientList(){
 
-        echo 'Lista de clientes!';
+        // Verifica se existe um admin logado
+        if (!Store::adminLogged()) {
+            Store::redirect('home', true);
+            return;
+        }
+
+        // Vai buscar a lista de clientes
+        $administrador = new Admins();
+        $clientes = $administrador->listingClients();
+
+        $dados = [
+            'clientes' => $clientes
+        ];
+
+        // Apresenta a pagina da lista dos clientes
+        Store::layoutAdmin([
+            'admin/layouts/html_header',
+            'admin/layouts/header',
+            'admin/client_list',
+            'admin/layouts/footer',
+            'admin/layouts/html_footer'
+        ], $dados);
+    }
+
+    // ============================================================
+    public function clientDetail(){
+
+        // Verifica se existe um admin logado
+        if (!Store::adminLogged()) {
+            Store::redirect('home', true);
+            return;
+        }
+
+        // Verifica se existe um id_cliente na query string
+        if(!isset($_GET['c'])){
+            Store::redirect('home', true);
+            return;
+        }
+
+        $id_cliente = Store::aesDecrypt($_GET['c']);
+        // Verifica se o id cliente é válido
+        if(empty($id_cliente)){
+            Store::redirect('home', true);
+            return;
+        }
+
+        echo $id_cliente;
+    }
+
+    // ============================================================
+    public function orderList(){
+
+        // LISTA DE ENCOMENDAS (COM FILTRO CASO NECESSARIO)
+
+        // Verfica se existe um filtro na query string
+        $filtros = [
+            'pendente'          => 'PENDENTE',
+            'em_processamento'  => 'EM PROCESSAMENTO',
+            'cancelada'         => 'CANCELADA',
+            'enviada'           => 'ENVIADA',
+            'concluida'         => 'CONCLUIDA'
+        ];
+
+        $filtro = '';
+        if(isset($_GET['f'])){
+
+            // Verifica se a variavel é uma key restrita dos filtros
+            if(key_exists($_GET['f'], $filtros)){   
+                $filtro = $filtros[$_GET['f']];
+            }
+        }
+
+        // Carregar a lista de encomendas
+        $admins = new Admins();
+        $listing_orders = $admins->listingOrders($filtro);
+
+        $dados = [
+            'listing_orders'    => $listing_orders,
+            'filtro'            => $filtro
+        ];
+        
+        // Apresenta a pagina da lista das encomendas
+        Store::layoutAdmin([
+            'admin/layouts/html_header',
+            'admin/layouts/header',
+            'admin/order_list',
+            'admin/layouts/footer',
+            'admin/layouts/html_footer'
+        ], $dados);
     }
 }

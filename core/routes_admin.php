@@ -6,11 +6,18 @@
 
 // Coleção das routes
 $routes = [
+    // Admin
     'home'                  => 'admin@index',
     'admin_login'           => 'admin@adminLogin',
     'admin_login_submit'    => 'admin@adminLoginSubmit',
     'admin_logout'          => 'admin@adminLogout',
-    'client_list'           => 'admin@clientList'
+
+    // Clientes
+    'client_list'           => 'admin@clientList',
+    'client_detail'         => 'admin@clientDetail',
+
+    // Encomendas
+    'order_list'            => 'admin@orderList'
 ];
 
 // Define a ação por defeito

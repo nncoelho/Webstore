@@ -14,7 +14,9 @@ a:hover {
 
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
@@ -51,4 +53,9 @@ h4 {
 
 .rodape-overlay {
     margin-bottom: 90px;
+}
+
+/* CORES */
+.text-a1a1a1{
+    color: #a1a1a1;
 }
