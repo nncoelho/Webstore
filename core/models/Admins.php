@@ -50,10 +50,68 @@ class Admins{
         // Vai buscar todos os clientes registados na BD
         $bd = new Database();
         $resultados = $bd->select(
-            "SELECT id_cliente, email, nome_completo, telefone, activo, deleted_at
-            FROM clientes"
+            "SELECT 
+                clientes.id_cliente,
+                clientes.email,
+                clientes.nome_completo,
+                clientes.telefone,
+                clientes.activo,
+                clientes.deleted_at,
+            COUNT(encomendas.id_encomenda) total_encomendas
+            FROM clientes LEFT JOIN encomendas
+            ON clientes.id_cliente = encomendas.id_cliente
+            GROUP BY clientes.id_cliente"
         );
         return $resultados;
+    }
+
+    // ============================================================
+    public function getClient($id_cliente){
+
+        $parametros = [
+            'id_cliente' => $id_cliente
+        ];
+
+        $bd = new Database();
+        $resultados = $bd->select(
+            "SELECT * FROM clientes 
+                WHERE id_cliente = :id_cliente",
+            $parametros
+        );
+        return $resultados[0];
+    }
+
+    // ============================================================
+    public function clientTotalOrders($id_cliente){
+
+        $parametros = [
+            'id_cliente' => $id_cliente
+        ];
+
+        $bd = new Database();
+        return $bd->select(
+            "SELECT count(*) total 
+                FROM encomendas
+                WHERE id_cliente = :id_cliente",
+            $parametros
+        )[0]->total;
+    }
+
+    // ============================================================
+    public function getClientOrders($id_cliente){
+
+        // Vai buscar todas as encomendas do cliente indicado
+        $parametros = [
+            ':id_cliente' => $id_cliente
+        ];
+
+        $bd = new Database();
+        return $bd->select(
+            "SELECT *
+                FROM encomendas
+                WHERE id_cliente = :id_cliente",
+            $parametros
+        );
     }
 
     // ============================================================
@@ -89,13 +147,11 @@ class Admins{
 
         // Vai buscar a lista de encomendas com filtro
         $bd = new Database();
-
         $sql = "SELECT e.*, c.nome_completo FROM encomendas e LEFT JOIN clientes c ON e.id_cliente = c.id_cliente";
         if ($filtro != '') {
             $sql .= " WHERE e.status = '$filtro'";
         }
         $sql .= ' ORDER BY e.id_encomenda DESC';
-
         return $bd->select($sql);
     }
 }

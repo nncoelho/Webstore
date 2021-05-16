@@ -10,11 +10,11 @@ class Admin{
 
     // ============================================================
     // Administrador: admin@admin.com
-    // Senha: admin123
+    // Password: admin123
     // ============================================================
     public function index(){
 
-        // Verifica se ja existe sessao do admin aberta
+        // Verifica se existe um admin logado
         if (!Store::adminLogged()) {
             Store::redirect('admin_login', true);
             return;
@@ -41,9 +41,11 @@ class Admin{
     }
 
     // ============================================================
+    // AUTENTICAÇÃO
+    // ============================================================
     public function adminLogin(){
 
-        // Verifica se ja existe sessao do admin aberta
+        // Verifica se existe um admin logado
         if (Store::adminLogged()) {
             Store::redirect('home', true);
             return;
@@ -122,6 +124,8 @@ class Admin{
     }
 
     // ============================================================
+    // CLIENTES
+    // ============================================================
     public function clientList(){
 
         // Verifica se existe um admin logado
@@ -158,25 +162,84 @@ class Admin{
         }
 
         // Verifica se existe um id_cliente na query string
-        if(!isset($_GET['c'])){
+        if (!isset($_GET['c'])) {
             Store::redirect('home', true);
             return;
         }
 
         $id_cliente = Store::aesDecrypt($_GET['c']);
         // Verifica se o id cliente é válido
-        if(empty($id_cliente)){
+        if (empty($id_cliente)) {
             Store::redirect('home', true);
             return;
         }
 
-        echo $id_cliente;
+        // Vai buscar os dados do cliente
+        $admin = new Admins();
+        $dados = [
+            'dados_cliente' => $admin->getClient($id_cliente),
+            'total_encomendas' => $admin->clientTotalOrders($id_cliente)
+        ];
+
+        // Apresenta a pagina de detalhes do cliente
+        Store::layoutAdmin([
+            'admin/layouts/html_header',
+            'admin/layouts/header',
+            'admin/client_detail',
+            'admin/layouts/footer',
+            'admin/layouts/html_footer'
+        ], $dados);
     }
 
     // ============================================================
-    public function orderList(){
+    public function clientOrderHistory(){
 
-        // LISTA DE ENCOMENDAS (COM FILTRO CASO NECESSARIO)
+        // Verifica se existe um admin logado
+        if (!Store::adminLogged()) {
+            Store::redirect('home', true);
+            return;
+        }
+
+        // Verifica se existe o id_cliente encriptado
+        if (!isset($_GET['c'])) {
+            Store::redirect('home', true);
+        }
+
+        // Define o id_cliente que vem encriptado
+        $id_cliente = Store::aesDecrypt($_GET['c']);
+
+        // Verifica se o id cliente é válido
+        if (empty($id_cliente)) {
+            Store::redirect('home', true);
+            return;
+        }
+
+        $administrador = new Admins();
+        $dados = [
+            'cliente'        => $administrador->getClient($id_cliente),
+            'listing_orders' => $administrador->getClientOrders($id_cliente)
+        ];
+
+        // Apresenta a pagina do histórico das encomendas do cliente
+        Store::layoutAdmin([
+            'admin/layouts/html_header',
+            'admin/layouts/header',
+            'admin/client_order_history',
+            'admin/layouts/footer',
+            'admin/layouts/html_footer'
+        ], $dados);
+    }
+
+    // ============================================================
+    // ENCOMENDAS
+    // ============================================================
+    public function ordersList(){
+
+        // Verifica se existe um admin logado
+        if (!Store::adminLogged()) {
+            Store::redirect('home', true);
+            return;
+        }
 
         // Verfica se existe um filtro na query string
         $filtros = [
@@ -188,15 +251,15 @@ class Admin{
         ];
 
         $filtro = '';
-        if(isset($_GET['f'])){
+        if (isset($_GET['f'])) {
 
             // Verifica se a variavel é uma key restrita dos filtros
-            if(key_exists($_GET['f'], $filtros)){   
+            if (key_exists($_GET['f'], $filtros)) {
                 $filtro = $filtros[$_GET['f']];
             }
         }
 
-        // Carregar a lista de encomendas
+        // Carrega a lista de encomendas (com filtro caso necessário)
         $admins = new Admins();
         $listing_orders = $admins->listingOrders($filtro);
 
@@ -204,14 +267,27 @@ class Admin{
             'listing_orders'    => $listing_orders,
             'filtro'            => $filtro
         ];
-        
+
         // Apresenta a pagina da lista das encomendas
         Store::layoutAdmin([
             'admin/layouts/html_header',
             'admin/layouts/header',
-            'admin/order_list',
+            'admin/orders_list',
             'admin/layouts/footer',
             'admin/layouts/html_footer'
         ], $dados);
+    }
+
+    // ============================================================
+    public function ordersDetails(){
+
+        // Vai buscar o id_encomenda
+
+        // Carregar os dados da encomenda selecionada
+
+        // Apresentar os dados de formar a poder ver os seus detalhes e alterar o seu status
+
+        // Incorporar neste quadro o mecanismo de produção de documentos (mPDF)
+
     }
 }

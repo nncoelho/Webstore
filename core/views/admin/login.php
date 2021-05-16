@@ -2,7 +2,7 @@
     <div class="row mt-3">
         <div class="col-4 offset-4">
 
-            <h3 class="text-center my-4">Admin Login</h3>
+            <h4 class="text-center my-4">Admin login</h4>
 
             <form action="?a=admin_login_submit" method="post">
                 <!-- Email -->

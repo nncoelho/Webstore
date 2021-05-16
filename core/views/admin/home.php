@@ -1,11 +1,11 @@
 <div class="container-fluid">
-    <div class="row">
-        <h3 class="text-center my-5">• Home - Backoffice •</h3>
+    <div class="row mt-3">
         <div class="col-md-2">
             <?php include(__DIR__ . '\layouts\admin_menu.php'); ?>
         </div>
         <div class="col-md-10">
-
+            <h4 class="my-1">Home - Backoffice</h4>
+            <hr>
             <!-- Apresenta informações sobre o total de encomendas em estado PENDENTE -->
             <h5><i class="far fa-hand-paper me-2"></i>Encomendas pendentes:</h5>
             <?php if ($total_pending_orders == 0) : ?>
@@ -14,7 +14,7 @@
                 <div class="alert alert-primary p-3 text-center">
                     <i class="fas fa-info-circle me-2 fa-lg"></i><span class="me-3">Existem encomendas em estado:
                         <b>PENDENTE</b> - Total: <b><?= $total_pending_orders ?></b></span>
-                    <a href="?a=order_list&f=pendente" class="btn btn-warning btn-sm"><i class="far fa-eye me-2"></i> Ver</a>
+                    <a href="?a=orders_list&f=pendente" class="btn btn-warning btn-sm"><i class="far fa-eye me-2"></i> Ver</a>
                 </div>
             <?php endif; ?>
             <hr>
@@ -26,7 +26,7 @@
                 <div class="alert alert-success p-3 text-center">
                     <i class="fas fa-info-circle me-2 fa-lg"></i><span class="me-3">Existem encomendas no estado:
                         <b>EM PROCESSAMENTO</b> - Total: <b><?= $total_processing_orders ?></b></span>
-                    <a href="?a=order_list&f=em_processamento" class="btn btn-warning btn-sm"><i class="far fa-eye me-2"></i> Ver</a>
+                    <a href="?a=orders_list&f=em_processamento" class="btn btn-warning btn-sm"><i class="far fa-eye me-2"></i> Ver</a>
                 </div>
             <?php endif; ?>
             <hr>

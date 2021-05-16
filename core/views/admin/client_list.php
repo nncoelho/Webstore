@@ -4,12 +4,12 @@ use core\classes\Store;
 ?>
 
 <div class="container-fluid">
-    <div class="row">
-        <h3 class="text-center my-5">• Lista de clientes •</h3>
+    <div class="row mt-3">
         <div class="col-md-2">
             <?php include(__DIR__ . '\layouts\admin_menu.php'); ?>
         </div>
         <div class="col-md-10">
+            <h4 class="my-1">Lista de clientes</h4>
             <hr>
             <?php if (count($clientes) == 0) : ?>
                 <p class="text-a1a1a1 my-3">Não existem clientes registados na base de dados.</p>
@@ -21,6 +21,7 @@ use core\classes\Store;
                             <th>Nome</th>
                             <th>E-mail</th>
                             <th>Telefone</th>
+                            <th class="text-center">Encomendas</th>
                             <th class="text-center">Activo</th>
                             <th class="text-center">Eliminado</th>
                         </tr>
@@ -33,6 +34,13 @@ use core\classes\Store;
                                 </td>
                                 <td><?= $cliente->email ?></td>
                                 <td><?= $cliente->telefone ?></td>
+                                <td class="text-center">
+                                    <?php if ($cliente->total_encomendas == 0) : ?>
+                                        -
+                                    <?php else : ?>
+                                        <?= $cliente->total_encomendas ?>
+                                    <?php endif; ?>
+                                </td>
                                 <!-- Activo -->
                                 <td class="text-center">
                                     <?php if ($cliente->activo == 1) : ?>
@@ -44,9 +52,9 @@ use core\classes\Store;
                                 <!-- Eliminado -->
                                 <td class="text-center">
                                     <?php if ($cliente->deleted_at == null) : ?>
-                                        <i class="text-danger fas fa-user"></i>
+                                        <i class="text-danger fas fa-times-circle"></i>
                                     <?php else : ?>
-                                        <i class="text-success fas fa-user"></i>
+                                        <i class="text-success fas fa-check-circle"></i>
                                     <?php endif; ?>
                                 </td>
                             </tr>

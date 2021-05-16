@@ -15,9 +15,11 @@ $routes = [
     // Clientes
     'client_list'           => 'admin@clientList',
     'client_detail'         => 'admin@clientDetail',
+    'client_order_history'  => 'admin@clientOrderHistory',
 
     // Encomendas
-    'order_list'            => 'admin@orderList'
+    'orders_list'            => 'admin@ordersList',
+    'orders_details'         => 'admin@ordersDetails'
 ];
 
 // Define a ação por defeito

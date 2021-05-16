@@ -1,36 +1,41 @@
-<div class="container-fluid">
-    <div class="row">
-        <h3 class="text-center my-5">• Lista de encomendas •</h3>
+<?php
 
+use core\classes\Store;
+?>
+
+<div class="container-fluid">
+    <div class="row mt-3">
         <div class="col-md-2">
             <?php include(__DIR__ . '\layouts\admin_menu.php'); ?>
         </div>
-
         <div class="col-md-10">
+            <h4 class="my-1">Lista de encomendas</h4>
             <hr>
-            <div class="d-inline-flex">
-                <div>
-                    <a href="?a=order_list" class="btn btn-primary btn-sm">Ver todas as encomendas</a>
+            <div class="row">
+                <div class="col text-end align-self-center">
+                    <a href="?a=orders_list" class="btn btn-primary btn-sm">Ver todas as encomendas</a>
                 </div>
-
-                <!-- Filter Status -->
-                <?php
-                $f = '';
-                if (isset($_GET['f'])) {
-                    $f = $_GET['f'];
-                }
-                ?>
-
-                <div class="ms-3 align-self-center">
-                    <label>Escolher estado:</label>
-                    <select id="combo-status" onchange="define_filter()">
-                        <option value="" <?= $f == '' ? 'selected' : '' ?>></option>
-                        <option value="pendente" <?= $f == 'pendente' ? 'selected' : '' ?>>Pendentes</option>
-                        <option value="em_processamento" <?= $f == 'em_processamento' ? 'selected' : '' ?>>Em processamento</option>
-                        <option value="enviada" <?= $f == 'enviada' ? 'selected' : '' ?>>Enviadas</option>
-                        <option value="cancelada" <?= $f == 'cancelada' ? 'selected' : '' ?>>Canceladas</option>
-                        <option value="concluida" <?= $f == 'concluida' ? 'selected' : '' ?>>Concluidas</option>
-                    </select>
+                <div class="col">
+                    <!-- Filter Status -->
+                    <?php
+                    $f = '';
+                    if (isset($_GET['f'])) {
+                        $f = $_GET['f'];
+                    }
+                    ?>
+                    <div class="row">
+                        <label for="inputPassword" class="col-sm-4 text-end col-form-label">Escolher estado:</label>
+                        <div class="col-sm-8">
+                            <select id="combo-status" class="form-control" onchange="define_filter()">
+                                <option value="" <?= $f == '' ? 'selected' : '' ?>></option>
+                                <option value="pendente" <?= $f == 'pendente' ? 'selected' : '' ?>>Pendentes</option>
+                                <option value="em_processamento" <?= $f == 'em_processamento' ? 'selected' : '' ?>>Em processamento</option>
+                                <option value="enviada" <?= $f == 'enviada' ? 'selected' : '' ?>>Enviadas</option>
+                                <option value="cancelada" <?= $f == 'cancelada' ? 'selected' : '' ?>>Canceladas</option>
+                                <option value="concluida" <?= $f == 'concluida' ? 'selected' : '' ?>>Concluidas</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
             <hr>
@@ -51,7 +56,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             <?php foreach ($listing_orders as $order) : ?>
                                 <tr>
                                     <td><?= $order->data_encomenda ?></td>
@@ -59,11 +63,12 @@
                                     <td><?= $order->nome_completo ?></td>
                                     <td><?= $order->email ?></td>
                                     <td><?= $order->telefone ?></td>
-                                    <td><?= $order->status ?></td>
+                                    <td>
+                                        <a href="?a=orders_details&e=<?= Store::aesEncrypt($order->id_encomenda) ?>"><?= $order->status ?></a>
+                                    </td>
                                     <td><?= $order->updated_at ?></td>
                                 </tr>
                             <?php endforeach; ?>
-
                         </tbody>
                     </table>
                 </small>
@@ -96,7 +101,7 @@
         var filtro = document.getElementById("combo-status").value;
         // Reload da página com o determinado filtro
         window.location.href = window.location.pathname + "?" + $.param({
-            'a': 'order_list',
+            'a': 'orders_list',
             'f': filtro
         });
     }
