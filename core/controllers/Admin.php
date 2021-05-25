@@ -9,8 +9,8 @@ use core\models\Admins;
 class Admin{
 
     // ============================================================
-    // Administrador: admin@admin.com
-    // Password: admin123
+    // ADMINISTRADOR: admin@admin.com
+    // PASSWORD: admin123
     // ============================================================
     public function index(){
 
@@ -233,7 +233,7 @@ class Admin{
     // ============================================================
     // ENCOMENDAS
     // ============================================================
-    public function ordersList(){
+    public function orderList(){
 
         // Verifica se existe um admin logado
         if (!Store::adminLogged()) {
@@ -259,9 +259,15 @@ class Admin{
             }
         }
 
+        // Vai buscar o id cliente se existir na query string
+        $id_cliente = null;
+        if(isset($_GET['c'])){
+            $id_cliente = Store::aesDecrypt($_GET['c']);
+        }
+
         // Carrega a lista de encomendas (com filtro caso necessário)
         $admins = new Admins();
-        $listing_orders = $admins->listingOrders($filtro);
+        $listing_orders = $admins->listingOrders($filtro, $id_cliente);
 
         $dados = [
             'listing_orders'    => $listing_orders,
@@ -272,22 +278,122 @@ class Admin{
         Store::layoutAdmin([
             'admin/layouts/html_header',
             'admin/layouts/header',
-            'admin/orders_list',
+            'admin/order_list',
             'admin/layouts/footer',
             'admin/layouts/html_footer'
         ], $dados);
     }
 
     // ============================================================
-    public function ordersDetails(){
+    public function orderDetails(){
+
+        // Verifica se existe um admin logado
+        if (!Store::adminLogged()) {
+            Store::redirect('home', true);
+            return;
+        }
 
         // Vai buscar o id_encomenda
+        $id_encomenda = null;
+        if (isset($_GET['e'])) {
+            $id_encomenda = Store::aesDecrypt($_GET['e']);
+        }
+        if (gettype($id_encomenda) != 'string') {
+            Store::redirect('home', true);
+            return;
+        }
 
         // Carregar os dados da encomenda selecionada
+        $admin = new Admins();
+        $encomenda = $admin->getOrderDetails($id_encomenda);
 
-        // Apresentar os dados de formar a poder ver os seus detalhes e alterar o seu status
+        // Apresenta a página de detalhes de formar a poder alterar o seu status
+        $dados = $encomenda;
+        Store::layoutAdmin([
+            'admin/layouts/html_header',
+            'admin/layouts/header',
+            'admin/order_details',
+            'admin/layouts/footer',
+            'admin/layouts/html_footer'
+        ], $dados);
+    }
 
-        // Incorporar neste quadro o mecanismo de produção de documentos (mPDF)
+    // ============================================================
+    public function changeOrderStatus(){
+
+        // Verifica se existe um admin logado
+        if (!Store::adminLogged()) {
+            Store::redirect('home', true);
+            return;
+        }
+
+        // Vai buscar o id_encomenda
+        $id_encomenda = null;
+        if (isset($_GET['e'])) {
+            $id_encomenda = Store::aesDecrypt($_GET['e']);
+        }
+        if (gettype($id_encomenda) != 'string') {
+            Store::redirect('home', true);
+            return;
+        }
+
+        // Vai buscar o novo estado
+        $estado = null;
+        if (isset($_GET['s'])) {
+            $estado = $_GET['s'];
+        }
+        if (!in_array($estado, STATUS)) {
+            Store::redirect('home', true);
+            return;
+        }
+
+        // REGRAS DE NEGÓCIO PARA GESTÃO DA ENCOMENDA (NOVO ESTADO)
+        
+        // Atualizar o estado da encomenda na base de dados
+        $admin = new Admins();
+        $admin->updateOrderStatus($id_encomenda, $estado);
+
+        // Executar operações baseadas no novo estado da encomenda
+        switch ($estado) {
+            case 'PENDENTE':
+                // Não existem ações
+                break;
+
+            case 'EM PROCESSAMENTO':
+                // Não existem ações
+                break;
+
+            case 'ENVIADA':
+                // Enviar um email ao cliente sobre o envio da encomenda
+                $this->enviar_email_encomenda_envidada($id_encomenda);
+                break;
+
+            case 'CANCELADA':
+                $this->enviar_email_encomenda_cancelada($id_encomenda);
+                break;
+
+            case 'CONCLUIDA':
+                // Não existe ações
+                break;
+        }
+
+        // Redirecciona para a página da própria encomenda
+        Store::redirect('order_details&e='.$_GET['e'], true);
+    }
+
+    // ============================================================
+    // OPERAÇÕES APÓS MUDANÇA DE ESTADO
+    // ============================================================
+    private function enviar_email_encomenda_envidada($id_encomenda){
+
+        // Executa as operações para enviar o email ao cliente
+        $email = new SendEmail();
+
+    }
+
+    private function enviar_email_encomenda_cancelada($id_encomenda){
+
+        // Executa as operações para enviar o email ao cliente
 
     }
 }

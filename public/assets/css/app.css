@@ -59,3 +59,8 @@ h6 {
 .text-a1a1a1{
     color: #a1a1a1;
 }
+
+/* STATUS CLICK */
+.status-click{
+    cursor: pointer;
+}

@@ -100,7 +100,7 @@ class Store{
     }
 
     // ============================================================
-    public static function printData($data){
+    public static function printData($data, $die = true){
         if (is_array($data) || is_object($data)) {
             echo '<pre>';
             print_r($data);
@@ -108,6 +108,8 @@ class Store{
             echo '<pre>';
             echo $data;
         }
-        die('<br>Concluido');
+        if($die){
+            die('<br>DEBUG INTERNO CONCLUIDO');
+        }
     }
 }

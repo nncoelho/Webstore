@@ -18,8 +18,9 @@ $routes = [
     'client_order_history'  => 'admin@clientOrderHistory',
 
     // Encomendas
-    'orders_list'            => 'admin@ordersList',
-    'orders_details'         => 'admin@ordersDetails'
+    'order_list'            => 'admin@orderList',
+    'order_details'         => 'admin@orderDetails',
+    'change_order_status'   => 'admin@changeOrderStatus'
 ];
 
 // Define a ação por defeito

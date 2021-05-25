@@ -14,7 +14,7 @@
                 <div class="alert alert-primary p-3 text-center">
                     <i class="fas fa-info-circle me-2 fa-lg"></i><span class="me-3">Existem encomendas em estado:
                         <b>PENDENTE</b> - Total: <b><?= $total_pending_orders ?></b></span>
-                    <a href="?a=orders_list&f=pendente" class="btn btn-warning btn-sm"><i class="far fa-eye me-2"></i> Ver</a>
+                    <a href="?a=order_list&f=pendente" class="btn btn-warning btn-sm"><i class="far fa-eye me-2"></i> Ver</a>
                 </div>
             <?php endif; ?>
             <hr>
@@ -26,7 +26,7 @@
                 <div class="alert alert-success p-3 text-center">
                     <i class="fas fa-info-circle me-2 fa-lg"></i><span class="me-3">Existem encomendas no estado:
                         <b>EM PROCESSAMENTO</b> - Total: <b><?= $total_processing_orders ?></b></span>
-                    <a href="?a=orders_list&f=em_processamento" class="btn btn-warning btn-sm"><i class="far fa-eye me-2"></i> Ver</a>
+                    <a href="?a=order_list&f=em_processamento" class="btn btn-warning btn-sm"><i class="far fa-eye me-2"></i> Ver</a>
                 </div>
             <?php endif; ?>
             <hr>

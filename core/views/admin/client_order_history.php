@@ -53,6 +53,9 @@
             <?php endif; ?>
             <hr>
         </div>
+        <div class="text-center mt-5">
+            <a href="?a=client_list" class="btn btn-secondary btn-150">Voltar</a>
+        </div>
     </div>
 </div>
 <script>

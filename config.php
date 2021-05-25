@@ -5,6 +5,8 @@ define('APP_NAME',          'Webstore');
 define('APP_VERSION',       '1.0.0');
 define('BASE_URL',          'http://localhost/webstore/public/');
 
+define('STATUS',  ['PENDENTE','EM PROCESSAMENTO','ENVIADA','CANCELADA','CONCLUIDA']);
+
 // MYSQL
 define('MYSQL_SERVER',      'localhost');
 define('MYSQL_DATABASE',    'webstore');
