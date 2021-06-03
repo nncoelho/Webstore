@@ -20,7 +20,7 @@ use core\classes\Store;
                     </div>
                     <?php if ($encomenda->status == 'EM PROCESSAMENTO') : ?>
                         <div class="mt-2">
-                            <a href="" class="btn btn-success btn-sm">PDF da Nota de pagamento</a>
+                            <a href="?a=pdf" class="btn btn-success btn-sm">PDF da Nota de pagamento</a>
                         </div>
                     <?php endif; ?>
                 </div>

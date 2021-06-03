@@ -1,7 +1,7 @@
 <?php
 
 namespace core\controllers;
-
+use core\classes\PDF;
 use core\classes\SendEmail;
 use core\classes\Store;
 use core\models\Admins;
@@ -388,12 +388,35 @@ class Admin{
 
         // Executa as operações para enviar o email ao cliente
         $email = new SendEmail();
-
     }
 
     private function enviar_email_encomenda_cancelada($id_encomenda){
 
-        // Executa as operações para enviar o email ao cliente
+    }
 
+    // ============================================================
+    // GESTÃO DA CLASSE PARA CRIAÇÃO DE PDFS
+    // ============================================================
+    public function createPDF(){
+
+        // Faz a criação e o output dos PDFs através do mPDF
+        $pdf = new PDF();
+
+        $pdf->set_letra_familia('Arial');
+        $pdf->set_letra_tamanho('3em');
+        $pdf->set_letra_tipo('bold');
+
+        $pdf->set_cor('blue');
+        $pdf->set_cor_fundo('');
+
+        $pdf->set_alinhamento('left');
+        $pdf->posicao_dimensao(200, 200, 300, 30);
+        $pdf->writeHTML('Esta frase serve para testes 1');
+
+        $pdf->set_alinhamento('right');
+        $pdf->posicao_dimensao(200, 235, 300, 30);
+        $pdf->writeHTML('Esta frase serve para testes 2');
+
+        $pdf->outputPDF();
     }
 }

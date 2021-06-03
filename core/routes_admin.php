@@ -20,7 +20,9 @@ $routes = [
     // Encomendas
     'order_list'            => 'admin@orderList',
     'order_details'         => 'admin@orderDetails',
-    'change_order_status'   => 'admin@changeOrderStatus'
+    'change_order_status'   => 'admin@changeOrderStatus',
+
+    'pdf'                   => 'admin@createPDF'
 ];
 
 // Define a ação por defeito

@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'fc4821a9af8cc7c0ed90c547b02204806ea4204a',
+    'reference' => '3a325594ec05d5cb21a80c5362f2d269e02cce8e',
     'name' => 'coelho/webstore',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'fc4821a9af8cc7c0ed90c547b02204806ea4204a',
+      'reference' => '3a325594ec05d5cb21a80c5362f2d269e02cce8e',
     ),
     'mpdf/mpdf' => 
     array (

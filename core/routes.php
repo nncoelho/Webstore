@@ -39,7 +39,7 @@ $routes = [
     'confirm_order'             => 'shoppingcart@confirmOrder',
 
     // Pagamentos
-    'pagamento'                 => 'main@pagamento'
+    'pagamento'                 => 'main@pagamento',
 ];
 
 // Define a ação por defeito

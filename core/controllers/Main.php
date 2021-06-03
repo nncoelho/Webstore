@@ -2,6 +2,7 @@
 
 namespace core\controllers;
 
+use core\classes\PDF;
 use core\classes\SendEmail;
 use core\classes\Store;
 use core\models\Clients;
