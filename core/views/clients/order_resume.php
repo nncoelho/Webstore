@@ -1,11 +1,10 @@
 <div class="container-fluid rodape-overlay">
     <div class="row">
         <div class="col-8 offset-2 text-center">
-            <h3 class="mt-5">Resumo da encomenda</h3>
-            <hr>
+            <h3 class="my-5">Resumo da encomenda</h3>
             <!-- Tabela do resumo da encomenda -->
-            <table class="table">
-                <thead>
+            <table class="table table-striped">
+                <thead class="table-dark">
                     <tr>
                         <th>Item</th>
                         <th class="text-start">Descrição</th>

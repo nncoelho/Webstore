@@ -1,6 +1,7 @@
 <?php
 
 namespace core\controllers;
+
 use core\classes\PDF;
 use core\classes\SendEmail;
 use core\classes\Store;
@@ -261,7 +262,7 @@ class Admin{
 
         // Vai buscar o id cliente se existir na query string
         $id_cliente = null;
-        if(isset($_GET['c'])){
+        if (isset($_GET['c'])) {
             $id_cliente = Store::aesDecrypt($_GET['c']);
         }
 
@@ -347,8 +348,10 @@ class Admin{
             return;
         }
 
+        // ============================================================
         // REGRAS DE NEGÓCIO PARA GESTÃO DA ENCOMENDA (NOVO ESTADO)
-        
+        // ============================================================
+
         // Atualizar o estado da encomenda na base de dados
         $admin = new Admins();
         $admin->updateOrderStatus($id_encomenda, $estado);
@@ -378,7 +381,7 @@ class Admin{
         }
 
         // Redirecciona para a página da própria encomenda
-        Store::redirect('order_details&e='.$_GET['e'], true);
+        Store::redirect('order_details&e=' . $_GET['e'], true);
     }
 
     // ============================================================
@@ -391,32 +394,199 @@ class Admin{
     }
 
     private function enviar_email_encomenda_cancelada($id_encomenda){
-
     }
 
     // ============================================================
-    // GESTÃO DA CLASSE PARA CRIAÇÃO DE PDFS
-    // ============================================================
-    public function createPDF(){
+    public function createPDFOrder(){
 
-        // Faz a criação e o output dos PDFs através do mPDF
-        $pdf = new PDF();
+        // Verifica se existe um admin logado
+        if (!Store::adminLogged()) {
+            Store::redirect('home', true);
+            return;
+        }
 
+        // Vai buscar o id_encomenda
+        $id_encomenda = null;
+        if (isset($_GET['e'])) {
+            $id_encomenda = Store::aesDecrypt($_GET['e']);
+        }
+        if (gettype($id_encomenda) != 'string') {
+            Store::redirect('home', true);
+            return;
+        }
+
+        // Vai buscar os detalhes da encomenda
+        $admin = new Admins();
+        $encomenda = $admin->getOrderDetails($id_encomenda);
+
+        // Cria o PDF com os detalhes da encomenda
+        $pdf = new PDF(true);
+        // $pdf->setTemplate(getcwd() . '/assets/templates/template.pdf' );
+
+        // Preparar opções base do PDF
         $pdf->set_letra_familia('Arial');
-        $pdf->set_letra_tamanho('3em');
+        $pdf->set_letra_tamanho('12px');
         $pdf->set_letra_tipo('bold');
 
-        $pdf->set_cor('blue');
-        $pdf->set_cor_fundo('');
+        // Data da encomenda
+        $pdf->posicao_dimensao(225, 204, 135, 22);
+        $pdf->writeHTML($encomenda['encomenda']->data_encomenda);
 
-        $pdf->set_alinhamento('left');
-        $pdf->posicao_dimensao(200, 200, 300, 30);
-        $pdf->writeHTML('Esta frase serve para testes 1');
+        // Código da encomenda
+        $pdf->posicao_dimensao(550, 204, 125, 22);
+        $pdf->writeHTML($encomenda['encomenda']->codigo_encomenda);
 
+        // Dados do cliente
+        $pdf->posicao_dimensao(75, 260, 600, 22);
+        $pdf->writeHTML($encomenda['encomenda']->nome_completo);
+
+        // Morada - Cidade
+        $pdf->posicao_dimensao(75, 285, 600, 22);
+        $pdf->writeHTML($encomenda['encomenda']->morada . ' - ' . $encomenda['encomenda']->cidade);
+
+        // Email - Telefone
+        $pdf->posicao_dimensao(75, 310, 600, 22);
+        $telefone = empty($encomenda['encomenda']->telefone) ? '' : ' - ' . $encomenda['encomenda']->telefone;
+        $pdf->writeHTML($encomenda['encomenda']->email . $telefone);
+
+        // Lista dos produtos encomendados
+        $y = 400;
+        $total_encomenda = 0;
+        $pdf->set_letra_tipo('regular');
+
+        foreach ($encomenda['lista_produtos'] as $produto) {
+            // Localização da apresentacão da quantidade x produto
+            $pdf->set_alinhamento('left');
+            $pdf->posicao_dimensao(75, $y, 475, 22);
+            $pdf->writeHTML($produto->quantidade . ' x ' . $produto->designacao_produto);
+
+            // Preco do produto
+            $pdf->set_alinhamento('right');
+            $pdf->posicao_dimensao(555, $y, 120, 22);
+            $preco = $produto->quantidade * $produto->preco_unidade;
+            $total_encomenda += $preco;
+            $pdf->writeHTML('€' . number_format($preco, 2, ',', '.'));
+
+            $y += 25;
+        }
+
+        // Apresenta o preco do total da compra
         $pdf->set_alinhamento('right');
-        $pdf->posicao_dimensao(200, 235, 300, 30);
-        $pdf->writeHTML('Esta frase serve para testes 2');
+        $pdf->posicao_dimensao(460, 900, 205, 27);
+        $pdf->set_letra_tamanho('15px');
+        $pdf->set_letra_tipo('bold');
+        $pdf->writeHTML('Total: ' . '€' . number_format($total_encomenda, 2, ',', '.'));
 
+        // Apresenta o PDF criado
         $pdf->outputPDF();
+    }
+
+    // ============================================================
+    public function sendPDFOrder(){
+
+        // Verifica se existe um admin logado
+        if (!Store::adminLogged()) {
+            Store::redirect('home', true);
+            return;
+        }
+
+        // Vai buscar o id_encomenda
+        $id_encomenda = null;
+        if (isset($_GET['e'])) {
+            $id_encomenda = Store::aesDecrypt($_GET['e']);
+        }
+        if (gettype($id_encomenda) != 'string') {
+            Store::redirect('home', true);
+            return;
+        }
+
+        // Vai buscar os detalhes da encomenda
+        $admin = new Admins();
+        $encomenda = $admin->getOrderDetails($id_encomenda);
+
+        // Cria o PDF com os detalhes da encomenda
+        $pdf = new PDF(true);
+        // $pdf->setTemplate(getcwd() . '/assets/templates/template.pdf' );
+
+        // Preparar opções base do PDF
+        $pdf->set_letra_familia('Arial');
+        $pdf->set_letra_tamanho('12px');
+        $pdf->set_letra_tipo('bold');
+
+        // Data da encomenda
+        $pdf->posicao_dimensao(225, 204, 135, 22);
+        $pdf->writeHTML($encomenda['encomenda']->data_encomenda);
+
+        // Código da encomenda
+        $pdf->posicao_dimensao(550, 204, 125, 22);
+        $pdf->writeHTML($encomenda['encomenda']->codigo_encomenda);
+
+        // Dados do cliente
+        $pdf->posicao_dimensao(75, 260, 600, 22);
+        $pdf->writeHTML($encomenda['encomenda']->nome_completo);
+
+        // Morada - Cidade
+        $pdf->posicao_dimensao(75, 285, 600, 22);
+        $pdf->writeHTML($encomenda['encomenda']->morada . ' - ' . $encomenda['encomenda']->cidade);
+
+        // Email - Telefone
+        $pdf->posicao_dimensao(75, 310, 600, 22);
+        $telefone = empty($encomenda['encomenda']->telefone) ? '' : ' - ' . $encomenda['encomenda']->telefone;
+        $pdf->writeHTML($encomenda['encomenda']->email . $telefone);
+
+        // Lista dos produtos encomendados
+        $y = 400;
+        $total_encomenda = 0;
+        $pdf->set_letra_tipo('regular');
+
+        foreach ($encomenda['lista_produtos'] as $produto) {
+            // Localização da apresentacão da quantidade x produto
+            $pdf->set_alinhamento('left');
+            $pdf->posicao_dimensao(75, $y, 475, 22);
+            $pdf->writeHTML($produto->quantidade . ' x ' . $produto->designacao_produto);
+
+            // Preco do produto
+            $pdf->set_alinhamento('right');
+            $pdf->posicao_dimensao(555, $y, 120, 22);
+            $preco = $produto->quantidade * $produto->preco_unidade;
+            $total_encomenda += $preco;
+            $pdf->writeHTML('€' . number_format($preco, 2, ',', '.'));
+
+            $y += 25;
+        }
+
+        // Apresenta o preco do total da compra
+        $pdf->set_alinhamento('right');
+        $pdf->posicao_dimensao(460, 900, 205, 27);
+        $pdf->set_letra_tamanho('15px');
+        $pdf->set_letra_tipo('bold');
+        $pdf->writeHTML('Total: ' . '€' . number_format($total_encomenda, 2, ',', '.'));
+
+        // Define permissoes e protecção
+        $permissoes = [
+            // 'copy',
+            'print',
+            // 'modify',
+            // 'annot-forms',
+            // 'fill-forms',
+            // 'extract',
+            // 'assemble',
+            // 'print-highres'
+        ];
+        $pdf->set_permissoes([], 'pdf123');
+
+        // Guarda o PDF criado
+        $ficheiro = $encomenda['encomenda']->codigo_encomenda . '_' . date('YmdHis') . '.pdf';
+        $pdf->savePDF($ficheiro);
+
+        // Enviar o email com o ficheiro em anexo
+        $email = new SendEmail();
+        $email->sendPDFOrderToClient($encomenda['encomenda']->email, $ficheiro);
+
+        // Elimina o ficheiro PDF da pasta temp
+        unlink(PDF_PATH . $ficheiro);
+
+        // Recarrega a pagina da encomenda
+        Store::redirect('order_details&e='.$_GET['e'], true);
     }
 }

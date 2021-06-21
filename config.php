@@ -5,7 +5,8 @@ define('APP_NAME',          'Webstore');
 define('APP_VERSION',       '1.0.0');
 define('BASE_URL',          'http://localhost/webstore/public/');
 
-define('STATUS',  ['PENDENTE','EM PROCESSAMENTO','ENVIADA','CANCELADA','CONCLUIDA']);
+// ORDER STATUS
+define('STATUS',  ['PENDENTE', 'EM PROCESSAMENTO', 'ENVIADA', 'CANCELADA', 'CONCLUIDA']);
 
 // MYSQL
 define('MYSQL_SERVER',      'localhost');
@@ -23,3 +24,6 @@ define('EMAIL_HOST',        'smtp.gmail.com');
 define('EMAIL_FROM',        'fenixdevsoft@gmail.com');
 define('EMAIL_PASS',        '');
 define('EMAIL_PORT',        587);
+
+// PDF
+define('PDF_PATH',          "C:/Laragon/www/webstore/temp/");

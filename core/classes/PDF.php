@@ -31,7 +31,8 @@ class PDF{
     // Contornos para construção do PDF
     private $mostrar_areas;
 
-    public function __construct($format = 'A4', $orientation = 'P', $mode = 'utf-8'){
+    // ============================================================
+    public function __construct($mostrar_areas = false, $format = 'A4', $orientation = 'P', $mode = 'utf-8'){
 
         // Cria a instância da classe mPDF
         $this->pdf = new Mpdf([
@@ -44,7 +45,14 @@ class PDF{
         $this->cleanHTML();
 
         // Mostra ou esconde contornos para construção do PDF
-        $this->mostrar_areas = true;
+        $this->mostrar_areas = $mostrar_areas;
+    }
+
+    // ============================================================
+    public function setTemplate($template){
+
+        // Define o template de PDFs
+        $this->pdf->SetDocTemplate($template);
     }
 
     // ============================================================
@@ -60,6 +68,14 @@ class PDF{
         // Output para o browser ou para ficheiro PDF
         $this->pdf->WriteHTML($this->html);
         $this->pdf->Output();
+    }
+
+    // ============================================================
+    public function savePDF($nome_ficheiro){
+
+        // Guarda o ficheiro PDF com o nome pretendido
+        $this->pdf->WriteHTML($this->html);
+        $this->pdf->Output(PDF_PATH . $nome_ficheiro);
     }
 
     // ============================================================
@@ -169,6 +185,13 @@ class PDF{
     }
 
     // ============================================================
+    public function set_permissoes($permissoes = [], $password = ''){
+
+        // Define permissoes para o documento a ser criado
+        $this->pdf->SetProtection($permissoes, $password);
+    }
+
+    // ============================================================
     public function writeHTML($texto){
 
         // Escreve texto no PDF
@@ -195,5 +218,34 @@ class PDF{
         }
 
         $this->html .= '">' . $texto . '</div>';
+    }
+
+    // ============================================================
+    // GESTÃO DA CLASSE PARA CRIAÇÃO DE PDFS
+    // ============================================================
+    public function createPDF(){
+
+        // Faz a criação e o output dos PDFs através do mPDF
+        $pdf = new PDF();
+
+        // Define um template de fundo
+        $pdf->setTemplate(getcwd() . '/assets/templates/template.pdf');
+
+        $pdf->set_letra_familia('Arial');
+        $pdf->set_letra_tamanho('1.2em');
+        $pdf->set_letra_tipo('bold');
+
+        $pdf->set_cor('blue');
+        $pdf->set_cor_fundo('');
+
+        $pdf->set_alinhamento('left');
+        $pdf->posicao_dimensao(200, 300, 300, 300);
+        $pdf->writeHTML('Frase de corpo de texto 1 inserida no template de PDF');
+
+        $pdf->set_alinhamento('left');
+        $pdf->posicao_dimensao(200, 600, 300, 300);
+        $pdf->writeHTML('Frase de corpo de texto 2 inserida no template de PDF');
+
+        $pdf->outputPDF();
     }
 }

@@ -20,7 +20,8 @@ use core\classes\Store;
                     </div>
                     <?php if ($encomenda->status == 'EM PROCESSAMENTO') : ?>
                         <div class="mt-2">
-                            <a href="?a=pdf" class="btn btn-success btn-sm">PDF da Nota de pagamento</a>
+                            <a href="?a=create_pdf_order&e=<?= Store::aesEncrypt($encomenda->id_encomenda) ?>" class="btn btn-secondary btn-sm">Ver PDF</a>
+                            <a href="?a=send_pdf_order&e=<?= Store::aesEncrypt($encomenda->id_encomenda) ?>" class="btn btn-success btn-sm">Enviar PDF</a>
                         </div>
                     <?php endif; ?>
                 </div>
