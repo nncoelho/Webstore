@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '34ff1a42b621849bcb34985dfea03f745a98de93',
+    'reference' => '82af73fe22e1f5460757724b4ac3d371eef9da05',
     'name' => 'coelho/webstore',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '34ff1a42b621849bcb34985dfea03f745a98de93',
+      'reference' => '82af73fe22e1f5460757724b4ac3d371eef9da05',
     ),
     'mpdf/mpdf' => 
     array (
