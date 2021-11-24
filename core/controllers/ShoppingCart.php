@@ -8,10 +8,12 @@ use core\models\Clients;
 use core\models\Orders;
 use core\models\Products;
 
-class ShoppingCart{
+class ShoppingCart
+{
 
     // ============================================================
-    public function addToShoppingCart(){
+    public function addToShoppingCart()
+    {
 
         // Vai buscar o id produto escolhido á query string
         if (!isset($_GET['id_produto'])) {
@@ -57,7 +59,8 @@ class ShoppingCart{
     }
 
     // ============================================================
-    public function deleteItemShoppingCart(){
+    public function deleteItemShoppingCart()
+    {
 
         // Vai buscar o id produto na query string
         $id_produto = $_GET['id_produto'];
@@ -76,7 +79,8 @@ class ShoppingCart{
     }
 
     // ============================================================
-    public function clearShoppingCart(){
+    public function clearShoppingCart()
+    {
 
         // Limpa todos os produtos do carrinho
         unset($_SESSION['shoppingcart']);
@@ -86,7 +90,8 @@ class ShoppingCart{
     }
 
     // ============================================================
-    public function shoppingCart(){
+    public function shoppingCart()
+    {
 
         // Verifica se existe carrinho
         if (!isset($_SESSION['shoppingcart']) || count($_SESSION['shoppingcart']) == 0) {
@@ -154,7 +159,8 @@ class ShoppingCart{
     }
 
     // ============================================================
-    public function alternativeAddress(){
+    public function alternativeAddress()
+    {
 
         // Receber os dados via AJAX(axios)
         $post = json_decode(file_get_contents('php://input'), true);
@@ -169,7 +175,8 @@ class ShoppingCart{
     }
 
     // ============================================================
-    public function finalizeOrder(){
+    public function finalizeOrder()
+    {
 
         // Verifica se existe cliente logado
         if (!isset($_SESSION['cliente'])) {
@@ -183,7 +190,8 @@ class ShoppingCart{
     }
 
     // ============================================================
-    public function finalizeOrderResume(){
+    public function finalizeOrderResume()
+    {
 
         // Verifica se existe cliente logado
         if (!isset($_SESSION['cliente'])) {
@@ -263,7 +271,8 @@ class ShoppingCart{
     }
 
     // ============================================================
-    public function confirmOrder(){
+    public function confirmOrder()
+    {
 
         // Verifica se existe cliente logado
         if (!isset($_SESSION['cliente'])) {

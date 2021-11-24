@@ -5,17 +5,19 @@ namespace core\models;
 use core\classes\Database;
 use core\classes\Store;
 
-class Clients{
+class Clients
+{
 
     // ============================================================
-    public function checkifMailExists($email){
+    public function checkifMailExists($email)
+    {
 
         // Verifica na BD se existe uma conta com o mesmo email
         $bd = new Database();
         $parametros = [
             ':email' => strtolower(trim($email))
         ];
-        
+
         $resultados = $bd->select(
             "SELECT email 
                 FROM clientes 
@@ -32,7 +34,8 @@ class Clients{
     }
 
     // ============================================================
-    public function saveClientBD(){
+    public function saveClientBD()
+    {
 
         // Regista o novo cliente na BD
         $bd = new Database();
@@ -73,7 +76,8 @@ class Clients{
     }
 
     // ============================================================
-    public function validateEmail($purl){
+    public function validateEmail($purl)
+    {
 
         // Validar o email do novo cliente
         $bd = new Database();
@@ -110,7 +114,8 @@ class Clients{
     }
 
     // ============================================================
-    public function validateLogin($utilizador, $senha){
+    public function validateLogin($utilizador, $senha)
+    {
 
         // Verifica se o login é válido
         $parametros = [
@@ -144,7 +149,8 @@ class Clients{
     }
 
     // ============================================================
-    public function getClientData($id_cliente){
+    public function getClientData($id_cliente)
+    {
 
         $parametros = [
             'id_cliente' => $id_cliente
@@ -161,7 +167,8 @@ class Clients{
     }
 
     // ============================================================
-    public function checkifMailExistsInOtherAccount($id_cliente, $email){
+    public function checkifMailExistsInOtherAccount($id_cliente, $email)
+    {
 
         // Verifica se já existe o email noutra conta de cliente
         $parametros = [
@@ -186,7 +193,8 @@ class Clients{
     }
 
     // ============================================================
-    public function updateClientDatainBD($email, $nome_completo, $morada, $cidade, $telefone){
+    public function updateClientDatainBD($email, $nome_completo, $morada, $cidade, $telefone)
+    {
 
         // Atualiza os dados do cliente na base de dados
         $parametros = [
@@ -213,7 +221,8 @@ class Clients{
     }
 
     // ============================================================
-    public function checkIfPasswordMatchesWithBD($id_cliente, $senha_atual){
+    public function checkIfPasswordMatchesWithBD($id_cliente, $senha_atual)
+    {
 
         // Verifica se a password atual coincide com a que está na BD
         $parametros = [
@@ -232,7 +241,8 @@ class Clients{
     }
 
     // ============================================================
-    public function updateNewPasswordInBD($id_cliente, $nova_senha){
+    public function updateNewPasswordInBD($id_cliente, $nova_senha)
+    {
 
         // Atualização da senha do cliente na base de dados
         $parametros = [

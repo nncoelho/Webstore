@@ -4,10 +4,12 @@ namespace core\classes;
 
 use Exception;
 
-class Store{
+class Store
+{
 
     // ============================================================
-    public static function layout($estruturas, $dados = null){
+    public static function layout($estruturas, $dados = null)
+    {
 
         // Verifica se estruturas é um array
         if (!is_array($estruturas)) {
@@ -26,7 +28,8 @@ class Store{
     }
 
     // ============================================================
-    public static function layoutAdmin($estruturas, $dados = null){
+    public static function layoutAdmin($estruturas, $dados = null)
+    {
 
         // Verifica se estruturas é um array
         if (!is_array($estruturas)) {
@@ -46,28 +49,32 @@ class Store{
 
 
     // ============================================================
-    public static function clientLogged(){
+    public static function clientLogged()
+    {
 
         // Verifica se existe um cliente logado
         return isset($_SESSION['cliente']);
     }
 
     // ============================================================
-    public static function adminLogged(){
+    public static function adminLogged()
+    {
 
         // Verifica se existe um admin logado
         return isset($_SESSION['admin']);
     }
 
     // ============================================================
-    public static function createHash($num_caracteres = 12){
+    public static function createHash($num_caracteres = 12)
+    {
 
         $chars = '01234567890123456789abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ';
         return substr(str_shuffle($chars), 0, $num_caracteres);
     }
 
     // ============================================================
-    public static function redirect($route = '', $admin = false){
+    public static function redirect($route = '', $admin = false)
+    {
 
         // Faz o redirecionamento para a URL desejada (route)
         if (!$admin) {
@@ -78,7 +85,8 @@ class Store{
     }
 
     // ============================================================
-    public static function generateOrderCode(){
+    public static function generateOrderCode()
+    {
 
         // Gera um código único para cada encomenda
         $codigo = "";
@@ -91,16 +99,19 @@ class Store{
     // ============================================================
     // ENCRIPTAR / DECRIPTAR ID ENCOMENDA
     // ============================================================
-    public static function aesEncrypt($valor){
+    public static function aesEncrypt($valor)
+    {
         return bin2hex(openssl_encrypt($valor, 'aes-256-cbc', AES_KEY, OPENSSL_RAW_DATA, AES_IV));
     }
 
-    public static function aesDecrypt($valor){
+    public static function aesDecrypt($valor)
+    {
         return openssl_decrypt(hex2bin($valor), 'aes-256-cbc', AES_KEY, OPENSSL_RAW_DATA, AES_IV);
     }
 
     // ============================================================
-    public static function printData($data, $die = true){
+    public static function printData($data, $die = true)
+    {
         if (is_array($data) || is_object($data)) {
             echo '<pre>';
             print_r($data);
@@ -108,7 +119,7 @@ class Store{
             echo '<pre>';
             echo $data;
         }
-        if($die){
+        if ($die) {
             die('<br>DEBUG INTERNO CONCLUIDO');
         }
     }

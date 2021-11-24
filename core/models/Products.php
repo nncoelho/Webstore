@@ -3,12 +3,13 @@
 namespace core\models;
 
 use core\classes\Database;
-use core\classes\Store;
 
-class Products{
+class Products
+{
 
     // ============================================================
-    public function listAvailableProducts($categoria){
+    public function listAvailableProducts($categoria)
+    {
 
         // Obtem todas as informações dos produtos da BD
         $bd = new Database();
@@ -28,7 +29,8 @@ class Products{
     }
 
     // ============================================================
-    public function listCategories(){
+    public function listCategories()
+    {
 
         // Devolve a lista de categorias existentes na BD
         $bd = new Database();
@@ -41,7 +43,8 @@ class Products{
     }
 
     // ============================================================
-    public function checkProductStock($id_produto){
+    public function checkProductStock($id_produto)
+    {
 
         $bd = new Database();
         $parametros = [
@@ -53,7 +56,8 @@ class Products{
     }
 
     // ============================================================
-    public function getProductsByIds($ids){
+    public function getProductsByIds($ids)
+    {
 
         $bd = new Database();
         return $bd->select("SELECT * FROM produtos WHERE id_produto IN ($ids)");

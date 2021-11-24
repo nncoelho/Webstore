@@ -5,11 +5,11 @@
 } */
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a:hover {
-    color: gold;
+  color: gold;
 }
 
 h2,
@@ -17,50 +17,49 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .btn-150 {
-    width: 150px;
+  width: 150px;
 }
 
 .navegacao {
-    background-color: rgb(153, 171, 195);
-    color: black;
-
+  background-color: rgb(153, 171, 195);
+  color: black;
 }
 
 .nav-item {
-    text-decoration: none;
-    color: white;
-    margin: 0px 6px;
+  text-decoration: none;
+  color: white;
+  margin: 0px 6px;
 }
 
 .nav-item:hover {
-    text-decoration: underline;
-    color: white;
+  text-decoration: underline;
+  color: white;
 }
 
 .box-product {
-    border: 1px solid rgba(150, 150, 150, 0.6);
-    border-radius: 12px;
+  border: 1px solid rgba(150, 150, 150, 0.6);
+  border-radius: 12px;
 }
 
 .rodape {
-    background-color: rgb(60, 75, 81);
-    color: white;
+  background-color: rgb(60, 75, 81);
+  color: white;
 }
 
 .rodape-overlay {
-    margin-bottom: 90px;
+  margin-bottom: 90px;
 }
 
 /* CORES */
-.text-a1a1a1{
-    color: #a1a1a1;
+.text-a1a1a1 {
+  color: #a1a1a1;
 }
 
 /* STATUS CLICK */
-.status-click{
-    cursor: pointer;
+.status-click {
+  cursor: pointer;
 }

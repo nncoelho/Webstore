@@ -4,7 +4,8 @@ namespace core\classes;
 
 use Mpdf\Mpdf;
 
-class PDF{
+class PDF
+{
 
     // ============================================================
     // CLASSE PARA CONSTRUÇÃO DE PDFS ATRAVÉS DO mPDF
@@ -32,7 +33,8 @@ class PDF{
     private $mostrar_areas;
 
     // ============================================================
-    public function __construct($mostrar_areas = false, $format = 'A4', $orientation = 'P', $mode = 'utf-8'){
+    public function __construct($mostrar_areas = false, $format = 'A4', $orientation = 'P', $mode = 'utf-8')
+    {
 
         // Cria a instância da classe mPDF
         $this->pdf = new Mpdf([
@@ -49,21 +51,24 @@ class PDF{
     }
 
     // ============================================================
-    public function setTemplate($template){
+    public function setTemplate($template)
+    {
 
         // Define o template de PDFs
         $this->pdf->SetDocTemplate($template);
     }
 
     // ============================================================
-    public function cleanHTML(){
+    public function cleanHTML()
+    {
 
         // Coloca o HTML em branco
         $this->html = '';
     }
 
     // ============================================================
-    public function outputPDF(){
+    public function outputPDF()
+    {
 
         // Output para o browser ou para ficheiro PDF
         $this->pdf->WriteHTML($this->html);
@@ -71,7 +76,8 @@ class PDF{
     }
 
     // ============================================================
-    public function savePDF($nome_ficheiro){
+    public function savePDF($nome_ficheiro)
+    {
 
         // Guarda o ficheiro PDF com o nome pretendido
         $this->pdf->WriteHTML($this->html);
@@ -79,7 +85,8 @@ class PDF{
     }
 
     // ============================================================
-    public function newPage(){
+    public function newPage()
+    {
 
         // Acrescenta uma nova página ao PDF
         $this->html .= '<pagebreak>';
@@ -88,39 +95,46 @@ class PDF{
     // ============================================================
     // MÉTODOS PARA DEFINIR A POSIÇÃO E DIMENSÃO DO TEXTO
     // ============================================================
-    public function set_x($x){
+    public function set_x($x)
+    {
         $this->x = $x;
     }
 
     // ============================================================
-    public function set_y($y){
+    public function set_y($y)
+    {
         $this->y = $y;
     }
 
     // ============================================================
-    public function set_largura($largura){
+    public function set_largura($largura)
+    {
         $this->largura = $largura;
     }
 
     // ============================================================
-    public function set_altura($altura){
+    public function set_altura($altura)
+    {
         $this->altura = $altura;
     }
 
     // ============================================================
-    public function posicao($x, $y){
+    public function posicao($x, $y)
+    {
         $this->x = $x;
         $this->y = $y;
     }
 
     // ============================================================
-    public function dimensao($largura, $altura){
+    public function dimensao($largura, $altura)
+    {
         $this->largura = $largura;
         $this->altura = $altura;
     }
 
     // ============================================================
-    public function posicao_dimensao($x, $y, $largura, $altura){
+    public function posicao_dimensao($x, $y, $largura, $altura)
+    {
 
         // Define a posição e a dimensão do espaço do texto
         $this->posicao($x, $y);
@@ -130,14 +144,16 @@ class PDF{
     // ============================================================
     // CORES
     // ============================================================
-    public function set_cor($cor){
+    public function set_cor($cor)
+    {
 
         // Define a cor do texto
         $this->cor = $cor;
     }
 
     // ============================================================
-    public function set_cor_fundo($cor_fundo){
+    public function set_cor_fundo($cor_fundo)
+    {
 
         // Define a cor de fundo
         $this->fundo = $cor_fundo;
@@ -146,14 +162,16 @@ class PDF{
     // ============================================================
     // CARACTERISTICAS DO TEXTO
     // ============================================================
-    public function set_alinhamento($alinhamento){
+    public function set_alinhamento($alinhamento)
+    {
 
         // Define o alinhamento do texto dentro do espaço
         $this->alinhamento = $alinhamento;
     }
 
     // ============================================================
-    public function set_letra_familia($familia){
+    public function set_letra_familia($familia)
+    {
 
         // Define os tipos de letra possiveis na construção do PDF
         $familias_possiveis = [
@@ -173,26 +191,30 @@ class PDF{
     }
 
     // ============================================================
-    public function set_letra_tamanho($tamanho){
+    public function set_letra_tamanho($tamanho)
+    {
 
         $this->letra_tamanho = $tamanho;
     }
 
     // ============================================================
-    public function set_letra_tipo($tipo){
+    public function set_letra_tipo($tipo)
+    {
 
         $this->letra_tipo = $tipo;
     }
 
     // ============================================================
-    public function set_permissoes($permissoes = [], $password = ''){
+    public function set_permissoes($permissoes = [], $password = '')
+    {
 
         // Define permissoes para o documento a ser criado
         $this->pdf->SetProtection($permissoes, $password);
     }
 
     // ============================================================
-    public function writeHTML($texto){
+    public function writeHTML($texto)
+    {
 
         // Escreve texto no PDF
         $this->html .= '<div style="';
@@ -223,7 +245,8 @@ class PDF{
     // ============================================================
     // GESTÃO DA CLASSE PARA CRIAÇÃO DE PDFS
     // ============================================================
-    public function createPDF(){
+    public function createPDF()
+    {
 
         // Faz a criação e o output dos PDFs através do mPDF
         $pdf = new PDF();

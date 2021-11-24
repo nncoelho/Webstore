@@ -3,12 +3,13 @@
 namespace core\models;
 
 use core\classes\Database;
-use core\classes\Store;
 
-class Admins{
+class Admins
+{
 
     // ============================================================
-    public function validateLogin($administrador, $senha){
+    public function validateLogin($administrador, $senha)
+    {
 
         // Verifica se o login é válido
         $parametros = [
@@ -45,7 +46,8 @@ class Admins{
     // ============================================================
     // CLIENTES
     // ============================================================
-    public function listingClients(){
+    public function listingClients()
+    {
 
         // Vai buscar todos os clientes registados na BD
         $bd = new Database();
@@ -66,7 +68,8 @@ class Admins{
     }
 
     // ============================================================
-    public function getClient($id_cliente){
+    public function getClient($id_cliente)
+    {
 
         $parametros = [
             'id_cliente' => $id_cliente
@@ -82,7 +85,8 @@ class Admins{
     }
 
     // ============================================================
-    public function clientTotalOrders($id_cliente){
+    public function clientTotalOrders($id_cliente)
+    {
 
         $parametros = [
             'id_cliente' => $id_cliente
@@ -98,7 +102,8 @@ class Admins{
     }
 
     // ============================================================
-    public function getClientOrders($id_cliente){
+    public function getClientOrders($id_cliente)
+    {
 
         // Vai buscar todas as encomendas do cliente indicado
         $parametros = [
@@ -117,7 +122,8 @@ class Admins{
     // ============================================================
     // ENCOMENDAS
     // ============================================================
-    public function totalPendingOrders(){
+    public function totalPendingOrders()
+    {
 
         // Vai buscar a quantidade de encomendas pendentes
         $bd = new Database();
@@ -130,7 +136,8 @@ class Admins{
     }
 
     // ============================================================
-    public function totalProcessingOrders(){
+    public function totalProcessingOrders()
+    {
 
         // Vai buscar a quantidade de encomendas em processamento
         $bd = new Database();
@@ -143,7 +150,8 @@ class Admins{
     }
 
     // ============================================================
-    public function listingOrders($filtro, $id_cliente){
+    public function listingOrders($filtro, $id_cliente)
+    {
 
         // Vai buscar a lista de encomendas com filtro
         $bd = new Database();
@@ -151,7 +159,7 @@ class Admins{
         if ($filtro != '') {
             $sql .= " AND e.status = '$filtro'";
         }
-        if(!empty($id_cliente)){
+        if (!empty($id_cliente)) {
             $sql .= " AND e.id_cliente = $id_cliente";
         }
         $sql .= " ORDER BY e.id_encomenda DESC";
@@ -159,7 +167,8 @@ class Admins{
     }
 
     // ============================================================
-    public function getOrderDetails($id_encomenda){
+    public function getOrderDetails($id_encomenda)
+    {
 
         // Vai buscar os detalhes de uma encomenda
         $bd = new Database();
@@ -191,7 +200,8 @@ class Admins{
     }
 
     // ============================================================
-    public function updateOrderStatus($id_encomenda, $estado){
+    public function updateOrderStatus($id_encomenda, $estado)
+    {
 
         // Atualizar o estado da encomenda na BD
         $bd = new Database();

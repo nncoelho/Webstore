@@ -7,13 +7,15 @@ use core\classes\SendEmail;
 use core\classes\Store;
 use core\models\Admins;
 
-class Admin{
+class Admin
+{
 
     // ============================================================
     // ADMINISTRADOR: admin@admin.com
     // PASSWORD: admin123
     // ============================================================
-    public function index(){
+    public function index()
+    {
 
         // Verifica se existe um admin logado
         if (!Store::adminLogged()) {
@@ -44,7 +46,8 @@ class Admin{
     // ============================================================
     // AUTENTICAÇÃO
     // ============================================================
-    public function adminLogin(){
+    public function adminLogin()
+    {
 
         // Verifica se existe um admin logado
         if (Store::adminLogged()) {
@@ -63,7 +66,8 @@ class Admin{
     }
 
     // ============================================================
-    public function adminLoginSubmit(){
+    public function adminLoginSubmit()
+    {
 
         // Verifica se existe um admin logado
         if (Store::adminLogged()) {
@@ -114,7 +118,8 @@ class Admin{
     }
 
     // ============================================================
-    public function adminLogout(){
+    public function adminLogout()
+    {
 
         // Remove as variáveis da sessão
         unset($_SESSION['admin']);
@@ -127,7 +132,8 @@ class Admin{
     // ============================================================
     // CLIENTES
     // ============================================================
-    public function clientList(){
+    public function clientList()
+    {
 
         // Verifica se existe um admin logado
         if (!Store::adminLogged()) {
@@ -154,7 +160,8 @@ class Admin{
     }
 
     // ============================================================
-    public function clientDetail(){
+    public function clientDetail()
+    {
 
         // Verifica se existe um admin logado
         if (!Store::adminLogged()) {
@@ -193,7 +200,8 @@ class Admin{
     }
 
     // ============================================================
-    public function clientOrderHistory(){
+    public function clientOrderHistory()
+    {
 
         // Verifica se existe um admin logado
         if (!Store::adminLogged()) {
@@ -234,7 +242,8 @@ class Admin{
     // ============================================================
     // ENCOMENDAS
     // ============================================================
-    public function orderList(){
+    public function orderList()
+    {
 
         // Verifica se existe um admin logado
         if (!Store::adminLogged()) {
@@ -286,7 +295,8 @@ class Admin{
     }
 
     // ============================================================
-    public function orderDetails(){
+    public function orderDetails()
+    {
 
         // Verifica se existe um admin logado
         if (!Store::adminLogged()) {
@@ -320,7 +330,8 @@ class Admin{
     }
 
     // ============================================================
-    public function changeOrderStatus(){
+    public function changeOrderStatus()
+    {
 
         // Verifica se existe um admin logado
         if (!Store::adminLogged()) {
@@ -387,17 +398,20 @@ class Admin{
     // ============================================================
     // OPERAÇÕES APÓS MUDANÇA DE ESTADO
     // ============================================================
-    private function enviar_email_encomenda_envidada($id_encomenda){
+    private function enviar_email_encomenda_envidada($id_encomenda)
+    {
 
         // Executa as operações para enviar o email ao cliente
         $email = new SendEmail();
     }
 
-    private function enviar_email_encomenda_cancelada($id_encomenda){
+    private function enviar_email_encomenda_cancelada($id_encomenda)
+    {
     }
 
     // ============================================================
-    public function createPDFOrder(){
+    public function createPDFOrder()
+    {
 
         // Verifica se existe um admin logado
         if (!Store::adminLogged()) {
@@ -482,7 +496,8 @@ class Admin{
     }
 
     // ============================================================
-    public function sendPDFOrder(){
+    public function sendPDFOrder()
+    {
 
         // Verifica se existe um admin logado
         if (!Store::adminLogged()) {
@@ -587,6 +602,6 @@ class Admin{
         unlink(PDF_PATH . $ficheiro);
 
         // Recarrega a pagina da encomenda
-        Store::redirect('order_details&e='.$_GET['e'], true);
+        Store::redirect('order_details&e=' . $_GET['e'], true);
     }
 }

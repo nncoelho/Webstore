@@ -1,5 +1,6 @@
 <?php
-    use core\classes\Store;
+
+use core\classes\Store;
 ?>
 <div class="container">
     <div class="row">

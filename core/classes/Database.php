@@ -6,12 +6,14 @@ use Exception;
 use PDO;
 use PDOException;
 
-class Database{
+class Database
+{
 
     private $connection;
 
     // ============================================================
-    private function connect(){
+    private function connect()
+    {
         // Connection to the database
         $this->connection = new PDO(
             'mysql:' .
@@ -28,7 +30,8 @@ class Database{
     }
 
     // ============================================================
-    private function disconnect(){
+    private function disconnect()
+    {
         // Disconnection from the database
         $this->connection = null;
     }
@@ -36,7 +39,8 @@ class Database{
     // ============================================================
     // CRUD - DB MANAGEMENT
     // ============================================================
-    public function select($sql, $parametros = null){
+    public function select($sql, $parametros = null)
+    {
 
         $sql = trim($sql);
 
@@ -74,7 +78,8 @@ class Database{
     }
 
     // ============================================================
-    public function insert($sql, $parametros = null){
+    public function insert($sql, $parametros = null)
+    {
 
         $sql = trim($sql);
 
@@ -105,7 +110,8 @@ class Database{
     }
 
     // ============================================================
-    public function update($sql, $parametros = null){
+    public function update($sql, $parametros = null)
+    {
 
         $sql = trim($sql);
 
@@ -136,7 +142,8 @@ class Database{
     }
 
     // ============================================================
-    public function delete($sql, $parametros = null){
+    public function delete($sql, $parametros = null)
+    {
 
         $sql = trim($sql);
 
@@ -169,7 +176,8 @@ class Database{
     // ============================================================
     // GENERIC SQL
     // ============================================================
-    public function statement($sql, $parametros = null){
+    public function statement($sql, $parametros = null)
+    {
 
         $sql = trim($sql);
 

@@ -3,12 +3,13 @@
 namespace core\models;
 
 use core\classes\Database;
-use core\classes\Store;
 
-class Orders{
+class Orders
+{
 
     // ============================================================
-    public function saveOrderBD($dados_encomenda, $dados_produtos){
+    public function saveOrderBD($dados_encomenda, $dados_produtos)
+    {
 
         $bd = new Database();
 
@@ -67,7 +68,8 @@ class Orders{
     }
 
     // ============================================================
-    public function getOrderHistory($id_cliente){
+    public function getOrderHistory($id_cliente)
+    {
 
         // Vai buscar o historico das encomendas por cliente
         $parametros = [
@@ -86,7 +88,8 @@ class Orders{
     }
 
     // ============================================================
-    public function checkClientOwnerOrder($id_cliente, $id_encomenda){
+    public function checkClientOwnerOrder($id_cliente, $id_encomenda)
+    {
 
         // Verifica se a encomenda tem relação com o cliente logado
         $parametros = [
@@ -107,7 +110,8 @@ class Orders{
     }
 
     // ============================================================
-    public function orderDetails($id_cliente, $id_encomenda){
+    public function orderDetails($id_cliente, $id_encomenda)
+    {
 
         // Vai buscar os dados da encomenda e a lista dos produtos
         $parametros = [
@@ -145,7 +149,8 @@ class Orders{
     }
 
     // ============================================================
-    public function payingOrder($codigo_encomenda){
+    public function payingOrder($codigo_encomenda)
+    {
 
         $parametros = [
             ':codigo_encomenda' => $codigo_encomenda

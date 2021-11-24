@@ -2,17 +2,18 @@
 
 namespace core\controllers;
 
-use core\classes\PDF;
 use core\classes\SendEmail;
 use core\classes\Store;
 use core\models\Clients;
 use core\models\Orders;
 use core\models\Products;
 
-class Main{
+class Main
+{
 
     // ============================================================
-    public function index(){
+    public function index()
+    {
 
         // Apresenta a pagina inicial
         Store::layout([
@@ -25,7 +26,8 @@ class Main{
     }
 
     // ============================================================
-    public function webstore(){
+    public function webstore()
+    {
 
         // Lista de produtos disponiveis em stock da BD
         $produtos = new Products();
@@ -56,7 +58,8 @@ class Main{
     }
 
     // ============================================================
-    public function signup(){
+    public function signup()
+    {
 
         // Verifica se ja existe sessao
         if (Store::clientLogged()) {
@@ -75,7 +78,8 @@ class Main{
     }
 
     // ============================================================
-    public function signupSubmit(){
+    public function signupSubmit()
+    {
 
         // Verifica se ja existe sessao
         if (Store::clientLogged()) {
@@ -129,7 +133,8 @@ class Main{
     }
 
     // ============================================================
-    public function confirmEmail(){
+    public function confirmEmail()
+    {
 
         // Verifica se ja existe sessao
         if (Store::clientLogged()) {
@@ -170,7 +175,8 @@ class Main{
     }
 
     // ============================================================
-    public function login(){
+    public function login()
+    {
 
         // Verifica se já existe um cliente logado
         if (Store::clientLogged()) {
@@ -189,7 +195,8 @@ class Main{
     }
 
     // ============================================================
-    public function loginSubmit(){
+    public function loginSubmit()
+    {
 
         // Verifica se já existe um cliente logado
         if (Store::clientLogged()) {
@@ -249,7 +256,8 @@ class Main{
     }
 
     // ============================================================
-    public function logout(){
+    public function logout()
+    {
 
         // Remove as variáveis da sessão
         unset($_SESSION['cliente']);
@@ -263,7 +271,8 @@ class Main{
     // ============================================================
     // PERFIL DE CLIENTE / UTILIZADOR
     // ============================================================
-    public function profile(){
+    public function profile()
+    {
 
         // Verifica se existe um utilizador logado
         if (!Store::clientLogged()) {
@@ -297,7 +306,8 @@ class Main{
     }
 
     // ============================================================
-    public function changePersonalData(){
+    public function changePersonalData()
+    {
 
         // Verifica se existe um utilizador logado
         if (!Store::clientLogged()) {
@@ -323,7 +333,8 @@ class Main{
     }
 
     // ============================================================
-    public function changePersonalDataSubmit(){
+    public function changePersonalDataSubmit()
+    {
 
         // Verifica se existe um utilizador logado
         if (!Store::clientLogged()) {
@@ -379,7 +390,8 @@ class Main{
     }
 
     // ============================================================
-    public function changePassword(){
+    public function changePassword()
+    {
 
         // Verifica se existe um utilizador logado
         if (!Store::clientLogged()) {
@@ -399,7 +411,8 @@ class Main{
     }
 
     // ============================================================
-    public function changePasswordSubmit(){
+    public function changePasswordSubmit()
+    {
 
         // Verifica se existe um utilizador logado
         if (!Store::clientLogged()) {
@@ -455,7 +468,8 @@ class Main{
     }
 
     // ============================================================
-    public function orderHistory(){
+    public function orderHistory()
+    {
 
         // Verifica se existe um utilizador logado
         if (!Store::clientLogged()) {
@@ -484,7 +498,8 @@ class Main{
     }
 
     // ============================================================
-    public function orderHistoryDetail(){
+    public function orderHistoryDetail()
+    {
 
         // Verifica se existe um utilizador logado
         if (!Store::clientLogged()) {
@@ -548,7 +563,8 @@ class Main{
     // ============================================================
     // SIMULAÇÃO DO WEBHOOK DO GATEWAY DE PAGAMENTO
     // ============================================================
-    public function pagamento(){
+    public function pagamento()
+    {
 
         // Verifica se veio o código da encomenda indicado
         $codigo_encomenda = '';

@@ -6,10 +6,12 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-class SendEmail{
+class SendEmail
+{
 
     // ============================================================
-    public function sendEmailCheckNewClient($email_client, $purl){
+    public function sendEmailCheckNewClient($email_client, $purl)
+    {
 
         // Constroi o PURL (link para validacao do email)
         $link = BASE_URL . '?a=confirm_email&purl=' . $purl;
@@ -53,7 +55,8 @@ class SendEmail{
     }
 
     // ============================================================
-    public function sendEmailCheckingOrder($email_client, $dados_encomenda){
+    public function sendEmailCheckingOrder($email_client, $dados_encomenda)
+    {
 
         // Envia email para o novo cliente para confirmaçao da encomenda
         $mail = new PHPMailer(true);
@@ -112,7 +115,8 @@ class SendEmail{
     }
 
     // ============================================================
-    public function sendPDFOrderToClient($email_client, $ficheiro){
+    public function sendPDFOrderToClient($email_client, $ficheiro)
+    {
 
         // Envia email para o novo cliente para confirmaçao do email e ativacao da conta
         $mail = new PHPMailer(true);
