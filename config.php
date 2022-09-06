@@ -21,7 +21,7 @@ define('AES_IV',            'KGo9gibaYWTvzknu');
 
 // EMAIL
 define('EMAIL_HOST',        'smtp.gmail.com');
-define('EMAIL_FROM',        'fenixdevsoft@gmail.com');
+define('EMAIL_FROM',        'for.development@gmail.com');
 define('EMAIL_PASS',        '');
 define('EMAIL_PORT',        587);
 
